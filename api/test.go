@@ -22,5 +22,6 @@ func DoNonthing(ctx *fasthttp.RequestCtx) {
 	}
 	log.Printf("%v\n", *data)
 
-	helper.RespJson(ctx, data)
+	helper.RespJson(ctx, data) // 正常返回
+	//helper.RespError(ctx, 99, "some errors") // 错误返回
 }

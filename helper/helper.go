@@ -41,10 +41,15 @@ var (
 
 /* 处理返回值，返回json */
 func RespJson(ctx *fasthttp.RequestCtx, data *map[string]interface{}) {
+	(*data)["msg"] = "success"
 	respJson := map[string]interface{}{
 		"code": 0,
-		"msg":  "success",
+		"appId": "",
+		"signType": "plain",
+		"encType": "plain",
+		"success": true,
 		"data": *data,
+		"timestamp": time.Now().Unix(),
 	}
 	doJSONWrite(ctx, fasthttp.StatusOK, respJson)
 }
@@ -53,8 +58,12 @@ func RespError(ctx *fasthttp.RequestCtx, code int, msg string) {
 	log.Println("Error: ", code, msg)
 	respJson := map[string]interface{}{
 		"code": code,
-		"msg":  msg,
-		"data": "",
+		"appId": "",
+		"signType": "plain",
+		"encType": "plain",
+		"success": false,
+		"data": map[string]interface{}{"msg": msg},
+		"timestamp": time.Now().Unix(),
 	}
 	doJSONWrite(ctx, fasthttp.StatusOK, respJson)
 }
