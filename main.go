@@ -28,7 +28,7 @@ var (
 
 	// cobra 命令行
 	rootCmd = &cobra.Command{
-		Use:   "antigen",
+		Use:   "antigen-go",
 		Short: "antigen to detect gen-test result",
 	}
 
@@ -79,6 +79,8 @@ var (
 )
 
 func init() {
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	
 	rootCmd.AddCommand(httpCmd)
 	rootCmd.AddCommand(serverCmd)
 }

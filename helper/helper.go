@@ -18,19 +18,20 @@ import (
 )
 
 const (
-    Limit  = 1 // 同時并行运行的goroutine上限
-    Weight = 1 // 每个goroutine获取信号量资源的权重
+	Limit  = 1 // 同時并行运行的goroutine上限
+	Weight = 1 // 每个goroutine获取信号量资源的权重
 )
 
 var (
 	/* 日志输出使用 */
 	output  = log.New(os.Stdout, "", 0)
 
-	/* 接口验签使用 appid : appsecret (md5sum : sha1sum|base64) */
+	/* 接口验签使用 appid : appsecret */
 	APPID_SECRET = map[string]string{
-		"bdecaa718f290152925e8d570c71adfe": "YWQ2YjZjNmE3MTVjZTNlNzhiMjk2YjI2MGYyYzI2ZDllNGUyMjRiNyAgLQo=",
-		"1ff3a3d2c1a8c236423ea3fe7bbdcff6": "ZDlmZjk2YmNlMTEyNDYzN2E4ZGRlMWJhMTYyZDcxZDIxMjRkYTIwZiAgLQo=",
-		"4fcf3871f4a023712bec9ed44ee4b709": "MjdjNGQxNGU3NjA1OWI0MGVmODIyN2FkOTEwYTViNDQzYTNjNTIyNSAgLQo=",
+		"19E179E5DC29C05E65B90CDE57A1C7E5" : "D91CEB11EE62219CD91CEB11EE62219C",
+		"66A095861BAE55F8735199DBC45D3E8E" : "43E554621FF7BF4756F8C1ADF17F209C",
+		"75C50F018B34AC0240915EC685F5961B" : "BCB3DF17A794368E1BB0352D3D2D5F50",
+		"3EA25569454745D01219080B779F021F" : "41DF0E6AE27B5282C07EF5124642A352",
 	}
 
 	/* 返回值的 content-type */
@@ -132,7 +133,7 @@ func CheckSign(content []byte) (*map[string]interface{}, error) {
 	// 拼接验签串
 	var signString = string("")
 	for _, k := range *keys {
-		if k == "sign_data" {
+		if k == "signData" {
 			continue
 		}
 		if k == "data" {
