@@ -11,6 +11,11 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# python compiled code
 *.pyc
+
+# mod.sum
 *.sum
-gotf
+
+# built file path
+build/

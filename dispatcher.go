@@ -6,19 +6,20 @@ import (
 	"time"
 	"context"
 	"encoding/json"
-	"gosearch/helper"
-	"gosearch/facelib"
+
+	"antigen-go/helper"
+	//"gosearch/facelib"
 )
 
 // 消息守候线程 -- 正常不会结束
-func dispatcher(groupsList string) {
+func dispatcher() {
 	log.Println("dispatcher() start")
 
 	goroutineDelta <- +1
 	defer func(){goroutineDelta <- -1}()
 
 	// 读取特征数据
-	facelib.ReadData(groupsList)
+	//facelib.ReadData(groupsList)
 
 	// 初始化redis连接
 	err := helper.InitRDB()
@@ -76,17 +77,12 @@ func faceSearch(payload string) (string, string, error) {
 		return "", "", err
 	}
 
-	var requestId, groupId, action string
+	var requestId, action string
 	var data []interface{}
 
 	requestId, ok := fields["request_id"].(string)
 	if !ok {
 		return "", "", fmt.Errorf("need request_id")
-	}
-
-	groupId, ok = fields["group_id"].(string)
-	if !ok {
-		return requestId, "", fmt.Errorf("need group_id")
 	}
 
 	action, ok = fields["action"].(string)
@@ -108,37 +104,6 @@ func faceSearch(payload string) (string, string, error) {
 	var result []byte
 
 	switch action {
-
-	case "search": // 检索特征
-		label, min := facelib.Search(groupId, testVec)
-		log.Println(groupId, ThreshHold, label, min)
-
-		if min < ThreshHold && label!="__BLANK__" { // __BLANK__ 说明特征已动态删除
-			resultMap := map[string]interface{}{
-				"label": label,
-				"score": min,
-				"code": 200,
-			}
-			result, _ = json.Marshal(resultMap)
-		} else {
-			result = []byte("{\"code\":0}")
-		}
-
-	case "add": // 新增特征值
-		label, ok := fields["label"].(string)
-		if !ok {
-			return requestId, "", fmt.Errorf("need label")
-		}
-		facelib.AddNewData(groupId, label, testVec)
-		result = []byte("{\"code\":200}")
-
-	case "remove":  // 删除特征值：不真的删除，只删除labelname
-		label, ok := fields["label"].(string)
-		if !ok {
-			return requestId, "", fmt.Errorf("need label")
-		}
-		facelib.RemoveData(groupId, label)
-		result = []byte("{\"code\":200}")		
 
 	default:
 		log.Println("faceSearch() unknown action:", action)
