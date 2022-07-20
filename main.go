@@ -41,9 +41,6 @@ var (
 				return errors.New("need port number")
 			}
 
-			// 保存 cmd
-			//httphelper.HttpCmd = cmd
-
 			// 启动 http 服务
 			http.RunServer(args[0])
 			// 不会返回
@@ -76,13 +73,42 @@ var (
 		},
 	}
 
+	// 测试
+	testCmd = &cobra.Command{
+		Use:   "test <model path>",
+		Short: "test some",
+		RunE: func(cmd *cobra.Command, args []string) error {
+
+			if len(args) == 0 {
+				return fmt.Errorf("model path needed")
+			}
+
+			/* 初始化模型 */
+			gotf.InitModel(path.Join(args[0], modelPath), path.Join(args[0], vocabPath))
+
+			ans, err := gotf.BertQA(
+				"金字塔（英语：pyramid），在建筑学上是指锥体建筑物，著名的有埃及金字塔，还有玛雅卡斯蒂略金字塔、阿兹特克金字塔（太阳金字塔、月亮金字塔）等。", 
+				"金字塔是什么？",
+			)
+			if err!=nil {
+				log.Printf("ERROR: %s", err)
+			} else {
+				log.Printf("ans: %v", ans)
+			}
+
+			// 不会返回
+			return nil
+		},
+	}
+
 )
 
 func init() {
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
-	
+
 	rootCmd.AddCommand(httpCmd)
 	rootCmd.AddCommand(serverCmd)
+	rootCmd.AddCommand(testCmd)
 }
 
 func main() {
