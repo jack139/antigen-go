@@ -12,6 +12,7 @@ import (
 	"time"
 	"os"
 	//"context"
+	"math/rand"
 
 	"github.com/valyala/fasthttp"
 	"github.com/ferluci/fast-realip"
@@ -37,7 +38,34 @@ var (
 	/* 返回值的 content-type */
 	strContentType     = []byte("Content-Type")
 	strApplicationJSON = []byte("application/json")
+
+	/* 随即字符串的字母表 */
+	letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 )
+
+func init() {
+	// 顺便初始化一下随机数发生器
+	rand.Seed(time.Now().UnixNano())
+}
+
+/* 产生随机串 */
+func randSeq(n int) string {
+    b := make([]rune, n)
+    for i := range b {
+        b[i] = letters[rand.Intn(len(letters))]
+    }
+    return string(b)
+}
+
+/* 产生 request id */
+func GenerateRequestId() string {
+	h := sha256.New()
+	h.Write([]byte(randSeq(10)))
+	sum := h.Sum(nil)
+	sha256Str := fmt.Sprintf("%x", sum)
+	return sha256Str
+}
+
 
 /* 处理返回值，返回json */
 func RespJson(ctx *fasthttp.RequestCtx, data *map[string]interface{}) {
