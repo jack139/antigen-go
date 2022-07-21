@@ -21,7 +21,18 @@ var (
 	//ctx = context.Background()
 )
 
-func Redis_init() error {
+func init(){
+
+	// 初始化redis连接
+	err := redis_init()
+	if err!=nil {
+		log.Fatal("Redis connecting FAIL: ", err)
+	}
+
+	//redisTest()
+}
+
+func redis_init() error {
 	Rdb = redis.NewClient(&redis.Options{
 		Addr:     REDIS_SERVER,
 		Password: REDIS_PASSWD,
@@ -37,6 +48,7 @@ func Redis_init() error {
 	return nil
 }
 
+// 发布消息
 func Redis_publish(queue string, message string) error {
 	if queue=="NO_RECIEVER" {
 		return nil
@@ -51,6 +63,7 @@ func Redis_publish(queue string, message string) error {
 }
 
 
+// 发布 请求数据 到 处理队列
 func Redis_publish_request(requestId string, data *map[string]interface{}) error {
 	msgBodyMap := map[string]interface{}{
 		"request_id": requestId,
@@ -63,12 +76,18 @@ func Redis_publish_request(requestId string, data *map[string]interface{}) error
 
 	queue := REDIS_QUEUENAME // todo: 多队列处理
 
-	log.Println(queue, msgBodyMap)
+	//log.Println(queue, msgBodyMap)
 
 	return Redis_publish(queue, string(msgBody))
 }
 
 
+// 订阅消息
+func Redis_subscribe(requestId string) *redis.PubSub {
+	return Rdb.Subscribe(context.Background(), requestId)
+}
+
+// 接受订阅的消息，只收一条
 func Redis_sub_receive(pubsub *redis.PubSub) (retBytes []byte) {
 	startTime := time.Now().Unix()
 	for {
@@ -102,8 +121,8 @@ func redisTest(){
 	log.Println("start")
 
 	rdb := redis.NewClient(&redis.Options{
-		Addr:	  "127.0.0.1:7480",
-		Password: "e18ffb7484f4d69c2acb40008471a71c", 
+		Addr:     REDIS_SERVER,
+		Password: REDIS_PASSWD,
 		DB:		  0,  // use default DB
 	})
 
@@ -131,7 +150,3 @@ func redisTest(){
 	log.Println("left")
 }
 
-
-func init(){
-	//redisTest()
-}

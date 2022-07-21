@@ -18,13 +18,6 @@ func dispatcher() {
 	goroutineDelta <- +1
 	defer func(){goroutineDelta <- -1}()
 
-	// 初始化redis连接
-	err := helper.Redis_init()
-	if err!=nil {
-		log.Println(err)
-		return
-	}
-
 	// 注册消息队列
 	pubsub := helper.Rdb.Subscribe(context.Background(), helper.REDIS_QUEUENAME)
 	ch := pubsub.Channel()
@@ -75,10 +68,9 @@ func porcessApi(payload string) (string, string, error) {
 		return "", "", err
 	}
 
-	log.Println(fields)
+	//log.Println(fields)
 
 	var requestId string
-	//var data []interface{}
 
 	requestId, ok := fields["request_id"].(string)
 	if !ok {
@@ -90,7 +82,7 @@ func porcessApi(payload string) (string, string, error) {
 		return requestId, "", fmt.Errorf("need data")
 	}
 
-	log.Println(data)
+	//log.Println(data)
 
 	var result []byte
 
@@ -102,7 +94,7 @@ func porcessApi(payload string) (string, string, error) {
 			retJson["msg"] = err.Error()
 		} else {
 			retJson["code"] = 0
-			retJson["ans"] = ans
+			retJson["data"] = ans
 		}
 
 	default:

@@ -14,12 +14,6 @@ import (
 /* 入口 */
 func RunServer(port string /*, userPath string*/) {
 
-	/* redis */
-	err := helper.Redis_init()
-	if err!=nil {
-		log.Fatal("Redis connecting FAIL: ", err)
-	}
-
 	/* router */
 	r := router.New()
 	r.GET("/", index)

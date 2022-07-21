@@ -1,9 +1,8 @@
 package gotf
 
 import (
-	"log"
+	//"log"
 	"strings"
-	//"fmt"
 
 	"github.com/buckhx/gobert/tokenize"
 	"github.com/buckhx/gobert/tokenize/vocab"
@@ -39,7 +38,7 @@ func isAlpha(c byte) bool {
 
 func BertQA(corpus string, question string) (ans string, err error) {
 
-	log.Printf("Corpus: %s\tQuestion: %s", corpus, question)
+	//log.Printf("Corpus: %s\tQuestion: %s", corpus, question)
 
 	tkz := tokenize.NewTokenizer(voc)
 	ff := tokenize.FeatureFactory{Tokenizer: tkz, SeqLen: MaxSeqLength}
