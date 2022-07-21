@@ -1,7 +1,7 @@
 package api
 
 import (
-	"log"
+	//"log"
 	"encoding/json"
 	"github.com/valyala/fasthttp"
 
@@ -10,7 +10,7 @@ import (
 
 /* http测试 */
 func ApiTest(ctx *fasthttp.RequestCtx) {
-	log.Println("APITest")
+	//log.Println("APITest")
 
 	// POST 的数据
 	content := ctx.PostBody()

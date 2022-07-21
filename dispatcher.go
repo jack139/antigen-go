@@ -12,22 +12,22 @@ import (
 )
 
 // 消息守候线程 -- 正常不会结束
-func dispatcher() {
+func dispatcher(queueNum string) {
 	log.Println("dispatcher() start")
 
 	goroutineDelta <- +1
 	defer func(){goroutineDelta <- -1}()
 
 	// 注册消息队列
-	pubsub := helper.Rdb.Subscribe(context.Background(), helper.REDIS_QUEUENAME)
+	pubsub := helper.Rdb.Subscribe(context.Background(), helper.REDIS_QUEUENAME+queueNum)
 	ch := pubsub.Channel()
 	defer pubsub.Close()
 
-	log.Println("rdb subscribed -->", helper.REDIS_QUEUENAME)
+	log.Println("rdb subscribed -->", helper.REDIS_QUEUENAME+queueNum)
 
 	// 收取消息 - 一直循环
 	for msg := range ch {
-		log.Println(msg.Channel, len(msg.Payload))
+		log.Printf("<-- %s [%d]", msg.Channel, len(msg.Payload))
 
 		goroutineDelta <- +1
 		go f(msg.Payload)		
@@ -49,15 +49,17 @@ func f(payload string) {
 		result = "{\"code\":-1}"
 	}
 
-	log.Printf("[%v] %s %s", time.Since(start), requestId, result)
-
 	if requestId!="NO_RECIEVER" {
 		// 返回结果
 		err = helper.Rdb.Publish(context.Background(), requestId, result).Err()
 		if err != nil {
 			log.Println("f() Error: ", err)
 		}
+
+		log.Printf("--> %s [%d]", requestId, len(result))
 	}
+
+	log.Printf("[%v] %s", time.Since(start), requestId)
 }
 
 func porcessApi(payload string) (string, string, error) {

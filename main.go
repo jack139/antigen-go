@@ -4,19 +4,12 @@ import (
 	"log"
 	"fmt"
 	"os"
-	"path"
 	"errors"
+	"strconv"
 	"github.com/spf13/cobra"
-	//"gosearch/facelib"
 
 	"antigen-go/http"
-	"antigen-go/gotf"
-)
-
-/* 预训练模型路径 */
-const(
-	modelPath = "saved-model"
-	vocabPath = "saved-model/vocab_chinese.txt"
+	//"antigen-go/gotf"
 )
 
 var (
@@ -43,25 +36,27 @@ var (
 
 			// 启动 http 服务
 			http.RunServer(args[0])
-			// 不会返回
+
 			return nil
 		},
 	}
 
 	// Dispatcher
 	serverCmd = &cobra.Command{
-		Use:   "server <model path>",
+		Use:   "server <queue No.>",
 		Short: "start dispatcher service",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
-				return fmt.Errorf("model path needed")
+				return fmt.Errorf("queue number needed")
 			}
 
-			/* 初始化模型 */
-			gotf.InitModel(path.Join(args[0], modelPath), path.Join(args[0], vocabPath))
+			_, err := strconv.Atoi(args[0])
+			if err != nil {
+				return fmt.Errorf("queue number should be a integer")
+			}
 
 			// 启动 分发服务
-			go dispatcher()
+			go dispatcher(args[0])
 
 			numGoroutines := 0
 			for diff := range goroutineDelta {
@@ -73,6 +68,7 @@ var (
 		},
 	}
 
+	/*
 	// 测试
 	testCmd = &cobra.Command{
 		Use:   "test <model path>",
@@ -82,9 +78,6 @@ var (
 			if len(args) == 0 {
 				return fmt.Errorf("model path needed")
 			}
-
-			/* 初始化模型 */
-			gotf.InitModel(path.Join(args[0], modelPath), path.Join(args[0], vocabPath))
 
 			ans, err := gotf.BertQA(
 				"金字塔（英语：pyramid），在建筑学上是指锥体建筑物，著名的有埃及金字塔，还有玛雅卡斯蒂略金字塔、阿兹特克金字塔（太阳金字塔、月亮金字塔）等。", 
@@ -100,7 +93,7 @@ var (
 			return nil
 		},
 	}
-
+	*/
 )
 
 func init() {
@@ -108,7 +101,7 @@ func init() {
 
 	rootCmd.AddCommand(httpCmd)
 	rootCmd.AddCommand(serverCmd)
-	rootCmd.AddCommand(testCmd)
+	//rootCmd.AddCommand(testCmd)
 }
 
 func main() {

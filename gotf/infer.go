@@ -11,6 +11,10 @@ import (
 )
 
 const (
+	/* 预训练模型路径 */
+	modelPath = "../../nlp/qa_demo/saved-model"
+	vocabPath = "../../nlp/qa_demo/saved-model/vocab_chinese.txt"
+
 	MaxSeqLength = 512
 )
 
@@ -18,7 +22,12 @@ const (
 var m *tf.SavedModel
 var voc vocab.Dict
 
-func InitModel(modelPath string, vocabPath string) {
+func init(){
+	initModel()
+}
+
+/* 初始化模型 */
+func initModel() {
 	var err error
 	voc, err = vocab.FromFile(vocabPath)
 	if err != nil {
