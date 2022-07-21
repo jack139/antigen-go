@@ -15,9 +15,9 @@ import (
 func RunServer(port string /*, userPath string*/) {
 
 	/* redis */
-	err := helper.InitRDB()
+	err := helper.Redis_init()
 	if err!=nil {
-		log.Fatal("Redis FAIL: ", err)
+		log.Fatal("Redis connecting FAIL: ", err)
 	}
 
 	/* router */

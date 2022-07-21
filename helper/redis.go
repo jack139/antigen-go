@@ -2,6 +2,7 @@ package helper
 
 import (
 	"log"
+	"time"
 	"context"
 	"encoding/json"
 	"github.com/go-redis/redis/v8"
@@ -12,6 +13,7 @@ const (
 	REDIS_SERVER = "127.0.0.1:7480"
 	REDIS_PASSWD = "e18ffb7484f4d69c2acb40008471a71c"
 	REDIS_QUEUENAME = "goinfer-synchronous-asynchronous-queue"
+	MESSAGE_TIMEOUT = 10 // 超时时间
 )
 
 var (
@@ -19,7 +21,7 @@ var (
 	//ctx = context.Background()
 )
 
-func InitRDB() error {
+func Redis_init() error {
 	Rdb = redis.NewClient(&redis.Options{
 		Addr:     REDIS_SERVER,
 		Password: REDIS_PASSWD,
@@ -66,6 +68,34 @@ func Redis_publish_request(requestId string, data *map[string]interface{}) error
 	return Redis_publish(queue, string(msgBody))
 }
 
+
+func Redis_sub_receive(pubsub *redis.PubSub) (retBytes []byte) {
+	startTime := time.Now().Unix()
+	for {
+		msgi, err := pubsub.ReceiveTimeout(context.Background(), time.Millisecond)
+		if err == nil {
+			if msg, ok := msgi.(*redis.Message); ok {
+				log.Println(msg.Channel, len(msg.Payload))
+				log.Println("output: ", msg.Payload)
+				retBytes = []byte(msg.Payload)
+				break
+			}
+		}
+
+		// 检查超时
+		if time.Now().Unix() - startTime > MESSAGE_TIMEOUT {
+			retBytes = []byte("{\"code\":9997,\"msg\":\"消息队列超时\"}")
+			break
+		}
+
+		time.Sleep(2 * time.Millisecond)
+	}
+
+	return retBytes
+}
+
+
+/*----------------------------------------------------------*/
 
 func redisTest(){
 

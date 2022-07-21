@@ -19,7 +19,7 @@ func dispatcher() {
 	defer func(){goroutineDelta <- -1}()
 
 	// 初始化redis连接
-	err := helper.InitRDB()
+	err := helper.Redis_init()
 	if err!=nil {
 		log.Println(err)
 		return

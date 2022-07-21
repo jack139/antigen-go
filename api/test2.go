@@ -2,10 +2,11 @@ package api
 
 import (
 	"log"
-	//"bytes"
 	"context"
+	//"time"
 	"encoding/json"
 	"github.com/valyala/fasthttp"
+	//"github.com/go-redis/redis/v8"
 
 	"antigen-go/helper"
 )
@@ -49,7 +50,6 @@ func ApiTest(ctx *fasthttp.RequestCtx) {
 
 	// 注册消息队列，在发redis消息前注册, 防止消息漏掉
 	pubsub := helper.Rdb.Subscribe(context.Background(), requestId)
-	ch := pubsub.Channel()
 	defer pubsub.Close()
 
 	// 发 请求消息
@@ -59,16 +59,25 @@ func ApiTest(ctx *fasthttp.RequestCtx) {
 		return		
 	}
 
-
+	/*
 	var respBytes []byte
 
-	// 收取消息 - 只收一次
-	for msg := range ch {
-		log.Println(msg.Channel, len(msg.Payload))
-		log.Println("output: ", msg.Payload)
-		respBytes = []byte(msg.Payload)
-		break
+	for {
+		msgi, err := pubsub.ReceiveTimeout(context.Background(), time.Millisecond)
+		if err == nil {
+			if msg, ok := msgi.(*redis.Message); ok {
+				log.Println(msg.Channel, len(msg.Payload))
+				log.Println("output: ", msg.Payload)
+				respBytes = []byte(msg.Payload)
+				break
+			}
+		}
+
+		time.Sleep(2 * time.Millisecond)
 	}
+	*/
+
+	respBytes := helper.Redis_sub_receive(pubsub)
 
 	// 转换成map, 生成返回数据
 	var respData map[string]interface{}
