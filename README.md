@@ -17,7 +17,7 @@ make
 ### 启动 dispatcher
 
 ```
-build/antigen-go server ../../nlp/qa_demo
+build/antigen-go server 0
 ```
 
 
