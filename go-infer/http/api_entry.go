@@ -4,7 +4,7 @@ import (
 	"log"
 	"github.com/valyala/fasthttp"
 
-	"antigen-go/helper"
+	"antigen-go/go-infer/helper"
 	"antigen-go/api"
 )
 

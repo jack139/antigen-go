@@ -1,15 +1,33 @@
-package main
+package server
 
 import (
+	"os"
 	"log"
 	"fmt"
 	"time"
 	"context"
 	"encoding/json"
 
-	"antigen-go/helper"
+	"antigen-go/go-infer/helper"
 	"antigen-go/gotf"
 )
+
+var (
+	// Receives the change in the number of goroutines
+	goroutineDelta = make(chan int)
+)
+
+func RunServer(queueNum string){
+	// 启动 分发服务
+	go dispatcher(queueNum)
+
+	numGoroutines := 0
+	for diff := range goroutineDelta {
+		numGoroutines += diff
+		log.Printf("Goroutines = %d\n", numGoroutines)
+		if numGoroutines == 0 { os.Exit(0) }
+	}
+}
 
 // 消息守候线程 -- 正常不会结束
 func dispatcher(queueNum string) {

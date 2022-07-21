@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"encoding/json"
-	"antigen-go/helper"
+
+	"antigen-go/go-infer/helper"
 )
 
 /* api测试: bert_qa */
