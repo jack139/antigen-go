@@ -24,16 +24,18 @@ var voc vocab.Dict
 
 
 /* 初始化模型 */
-func InitModel() {
+func InitModel() error {
 	var err error
 	voc, err = vocab.FromFile(vocabPath)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	m, err = tf.LoadSavedModel(modelPath, []string{"train"}, nil)
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 /* 判断是否是英文字符 */

@@ -5,8 +5,12 @@ import (
 	"os"
 	"github.com/spf13/cobra"
 
+	//"antigen-go/go-infer/types"
 	"antigen-go/go-infer/cli"
+
+	"antigen-go/gotf"
 )
+
 
 var (
 	rootCmd = &cobra.Command{
@@ -15,7 +19,18 @@ var (
 	}
 )
 
+/*  定义模型相关参数和方法  */
+type MyModel struct{}
+
+func (m MyModel) Init() error {
+	return gotf.InitModel()
+}
+
+///////////////////////
+
 func init() {
+	cli.AModel = MyModel{}
+
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 
 	rootCmd.AddCommand(cli.HttpCmd)

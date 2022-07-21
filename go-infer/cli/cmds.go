@@ -6,12 +6,16 @@ import (
 	"strconv"
 	"github.com/spf13/cobra"
 
+	"antigen-go/go-infer/types"
 	"antigen-go/go-infer/http"
 	"antigen-go/go-infer/server"
-	"antigen-go/gotf"
+	//"antigen-go/gotf"
 )
 
 var (
+
+	AModel types.Model
+
 	// http 服务
 	HttpCmd = &cobra.Command{
 		Use:   "http <port>",
@@ -43,7 +47,11 @@ var (
 			}
 
 			// 初始化模型
-			gotf.InitModel()
+			//err = gotf.InitModel()
+			err = AModel.Init()
+			if err != nil {
+				return fmt.Errorf("init deep model fail")
+			}
 
 			// 启动 分发服务
 			server.RunServer(args[0])
