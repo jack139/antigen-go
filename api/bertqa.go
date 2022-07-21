@@ -1,38 +1,25 @@
 package api
 
 import (
-	//"log"
+	"fmt"
+	"log"
 	"encoding/json"
-	"github.com/valyala/fasthttp"
-
 	"antigen-go/helper"
 )
 
-/* http测试 */
-func ApiTest(ctx *fasthttp.RequestCtx) {
-	//log.Println("APITest")
-
-	// POST 的数据
-	content := ctx.PostBody()
-
-	// 验签
-	reqData, err := helper.CheckSign(content)
-	if err != nil {
-		helper.RespError(ctx, 9000, err.Error())
-		return
-	}
+/* api测试: bert_qa */
+func ApiBertQA(reqData *map[string]interface{}) (*map[string]interface{}, error) {
+	log.Println("ApiBertQA")
 
 	// 检查参数
 	corpus, ok := (*reqData)["corpus"].(string)
 	if !ok {
-		helper.RespError(ctx, 9101, "need corpus")
-		return
+		return &map[string]interface{}{"code":9101}, fmt.Errorf("need corpus")
 	}
 
 	question, ok := (*reqData)["question"].(string)
 	if !ok {
-		helper.RespError(ctx, 9102, "need question")
-		return
+		return &map[string]interface{}{"code":9102}, fmt.Errorf("need question")
 	}
 
 	// 构建reqData
@@ -50,10 +37,9 @@ func ApiTest(ctx *fasthttp.RequestCtx) {
 	defer pubsub.Close()
 
 	// 发 请求消息
-	err = helper.Redis_publish_request(requestId, &reqDataMap)
+	err := helper.Redis_publish_request(requestId, &reqDataMap)
 	if err!=nil {
-		helper.RespError(ctx, 9103, err.Error())
-		return		
+		return &map[string]interface{}{"code":9103}, err
 	}
 
 	// 收 结果消息
@@ -63,14 +49,12 @@ func ApiTest(ctx *fasthttp.RequestCtx) {
 	var respData map[string]interface{}
 
 	if err := json.Unmarshal(respBytes, &respData); err != nil {
-		helper.RespError(ctx, 9012, err.Error())
-		return
+		return &map[string]interface{}{"code":9104}, err
 	}
 
 	// code==0 提交成功
 	if respData["code"].(float64)!=0 { 
-		helper.RespError(ctx, int(respData["code"].(float64)), respData["msg"].(string))  ///  提交失败
-		return
+		return &map[string]interface{}{"code":int(respData["code"].(float64))}, fmt.Errorf(respData["msg"].(string))
 	}
 
 	// 返回区块id
@@ -79,5 +63,5 @@ func ApiTest(ctx *fasthttp.RequestCtx) {
 		"ans" : respData["data"].(string),  // data 数据
 	}
 
-	helper.RespJson(ctx, &resp)
+	return &resp, nil
 }

@@ -65,8 +65,8 @@ if __name__ == '__main__':
     host = 'http://%s:5000'%hostname
     
 
-    #url = host+'/api/null'
-    url = host+'/api/test'
+    #url = host+'/api/echo'
+    url = host+'/api/bert_qa'
 
     start_time = datetime.now()
     r = pool.urlopen('POST', url, body=body)

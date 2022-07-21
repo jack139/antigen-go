@@ -4,10 +4,8 @@ import (
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 	"log"
-	//"time"
 
 	"antigen-go/helper"
-	"antigen-go/api"
 )
 
 
@@ -17,8 +15,10 @@ func RunServer(port string /*, userPath string*/) {
 	/* router */
 	r := router.New()
 	r.GET("/", index)
-	r.POST("/api/null", api.DoNonthing)
-	r.POST("/api/test", api.ApiTest)
+	for path := range ENTRY_MAP {
+		r.POST(path, apiEntry)
+		log.Println("router added: ", path)
+	}
 
 	log.Printf("start HTTP server at 0.0.0.0:%s\n", port)
 

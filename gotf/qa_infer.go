@@ -22,12 +22,9 @@ const (
 var m *tf.SavedModel
 var voc vocab.Dict
 
-func init(){
-	initModel()
-}
 
 /* 初始化模型 */
-func initModel() {
+func InitModel() {
 	var err error
 	voc, err = vocab.FromFile(vocabPath)
 	if err != nil {
