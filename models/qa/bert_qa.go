@@ -1,4 +1,4 @@
-package models
+package qa
 
 import (
 	"fmt"
@@ -14,14 +14,15 @@ import (
 )
 
 const (
-	MaxSeqLength = 512
-
 	apiPath = "/api/bert_qa"
+	MaxSeqLength = 512
 )
 
 /* 训练好的模型权重 */
-var m *tf.SavedModel
-var voc vocab.Dict
+var (
+	m *tf.SavedModel
+	voc vocab.Dict
+)
 
 /* 初始化模型 */
 func initModel() error {
