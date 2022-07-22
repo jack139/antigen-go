@@ -5,10 +5,9 @@ import (
 	"os"
 	"github.com/spf13/cobra"
 
-	//"antigen-go/go-infer/types"
 	"antigen-go/go-infer/cli"
-
-	"antigen-go/gotf"
+	"antigen-go/go-infer/types"
+	"antigen-go/models"
 )
 
 
@@ -19,20 +18,18 @@ var (
 	}
 )
 
-/*  定义模型相关参数和方法  */
-type MyModel struct{}
-
-func (m MyModel) Init() error {
-	return gotf.InitModel()
-}
-
-///////////////////////
-
 func init() {
-	cli.AModel = MyModel{}
+	// 添加模型实例
+	types.ModelList = append(types.ModelList, &models.BertQA{})
+	types.ModelList = append(types.ModelList, &models.EchoModel{})
 
+	// 添加 api 入口
+	for m := range types.ModelList {
+		types.EntryMap[types.ModelList[m].ApiPath()] = types.ModelList[m].ApiEntry
+	}
+
+	// 命令行设置
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
-
 	rootCmd.AddCommand(cli.HttpCmd)
 	rootCmd.AddCommand(cli.ServerCmd)
 }

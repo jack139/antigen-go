@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"antigen-go/go-infer/helper"
+	"antigen-go/go-infer/types"
 )
 
 
@@ -15,7 +16,7 @@ func RunServer(port string /*, userPath string*/) {
 	/* router */
 	r := router.New()
 	r.GET("/", index)
-	for path := range ENTRY_MAP {
+	for path := range types.EntryMap {
 		r.POST(path, apiEntry)
 		log.Println("router added: ", path)
 	}

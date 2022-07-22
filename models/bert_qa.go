@@ -1,13 +1,17 @@
-package gotf
+package models
 
 import (
-	//"log"
+	"fmt"
+	"log"
 	"strings"
+	"encoding/json"
 
 	"github.com/buckhx/gobert/tokenize"
 	"github.com/buckhx/gobert/tokenize/vocab"
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 	"github.com/aclements/go-gg/generic/slice"
+
+	"antigen-go/go-infer/helper"
 )
 
 const (
@@ -16,15 +20,16 @@ const (
 	vocabPath = "../../nlp/qa_demo/saved-model/vocab_chinese.txt"
 
 	MaxSeqLength = 512
+
+	apiPath = "/api/bert_qa"
 )
 
 /* 训练好的模型权重 */
 var m *tf.SavedModel
 var voc vocab.Dict
 
-
 /* 初始化模型 */
-func InitModel() error {
+func initModel() error {
 	var err error
 	voc, err = vocab.FromFile(vocabPath)
 	if err != nil {
@@ -44,8 +49,82 @@ func isAlpha(c byte) bool {
 }
 
 
-func BertQA(corpus string, question string) (ans string, err error) {
+/*  定义模型相关参数和方法  */
+type BertQA struct{}
 
+func (x *BertQA) Init() error {
+	return initModel()
+}
+
+func (x *BertQA) ApiPath() string {
+	return apiPath
+}
+
+func (x *BertQA) ApiEntry(reqData *map[string]interface{}) (*map[string]interface{}, error) {
+	log.Println("Api_BertQA")
+
+	// 检查参数
+	corpus, ok := (*reqData)["corpus"].(string)
+	if !ok {
+		return &map[string]interface{}{"code":9101}, fmt.Errorf("need corpus")
+	}
+
+	question, ok := (*reqData)["question"].(string)
+	if !ok {
+		return &map[string]interface{}{"code":9102}, fmt.Errorf("need question")
+	}
+
+	// 构建reqData
+	reqDataMap := map[string]interface{}{
+		"api": apiPath,
+		"corpus": corpus,
+		"question": question,
+	}
+
+	requestId := helper.GenerateRequestId()
+
+
+	// 注册消息队列，在发redis消息前注册, 防止消息漏掉
+	pubsub := helper.Redis_subscribe(requestId)
+	defer pubsub.Close()
+
+	// 发 请求消息
+	err := helper.Redis_publish_request(requestId, &reqDataMap)
+	if err!=nil {
+		return &map[string]interface{}{"code":9103}, err
+	}
+
+	// 收 结果消息
+	respBytes := helper.Redis_sub_receive(pubsub)
+
+	// 转换成map, 生成返回数据
+	var respData map[string]interface{}
+
+	if err := json.Unmarshal(respBytes, &respData); err != nil {
+		return &map[string]interface{}{"code":9104}, err
+	}
+
+	// code==0 提交成功
+	if respData["code"].(float64)!=0 { 
+		return &map[string]interface{}{"code":int(respData["code"].(float64))}, fmt.Errorf(respData["msg"].(string))
+	}
+
+	// 返回区块id
+	resp := map[string]interface{}{
+		//"data" : respData["data"].(map[string]interface{}),  // data 数据
+		"ans" : respData["data"].(string),  // data 数据
+	}
+
+	return &resp, nil
+}
+
+
+//func BertQA(corpus string, question string) (ans string, err error) {
+func (x *BertQA) Infer(reqData *map[string]interface{}) (*map[string]interface{}, error) {
+	log.Println("Infer_BertQA")
+
+	corpus := (*reqData)["corpus"].(string)
+	question := (*reqData)["question"].(string)
 	//log.Printf("Corpus: %s\tQuestion: %s", corpus, question)
 
 	tkz := tokenize.NewTokenizer(voc)
@@ -57,7 +136,7 @@ func BertQA(corpus string, question string) (ans string, err error) {
 
 	tids, err := tf.NewTensor([][]int32{f.TokenIDs})
 	if err != nil {
-		return ans, err
+		return nil, err
 	}
 	new_mask := make([]float32, len(f.Mask))
 	for i, v := range f.Mask {
@@ -65,11 +144,11 @@ func BertQA(corpus string, question string) (ans string, err error) {
 	}
 	mask, err := tf.NewTensor([][]float32{new_mask})
 	if err != nil {
-		return ans, err
+		return nil, err
 	}
 	sids, err := tf.NewTensor([][]int32{f.TypeIDs})
 	if err != nil {
-		return ans, err
+		return nil, err
 	}
 
 	res, err := m.Session.Run(
@@ -85,7 +164,7 @@ func BertQA(corpus string, question string) (ans string, err error) {
 		nil,
 	)
 	if err != nil {
-		return ans, err
+		return nil, err
 	}
 
 	st := slice.ArgMax(res[0].Value().([][]float32)[0])
@@ -98,7 +177,7 @@ func BertQA(corpus string, question string) (ans string, err error) {
 	//ans = strings.Join(f.Tokens[st:ed+1], "")
 
 	// 处理token中的英文，例如： 'di', '##st', '##ri', '##bu', '##ted', 're', '##pr', '##ese', '##nt', '##ation',
-	ans = ""
+	var ans string
 	for i:=st;i<ed+1;i++ {
 		if len(f.Tokens[i])>0 && isAlpha(f.Tokens[i][0]){ // 英文开头，加空格
 			ans += " "+f.Tokens[i]
@@ -110,8 +189,8 @@ func BertQA(corpus string, question string) (ans string, err error) {
 	}
 
 	if strings.HasPrefix(ans, "[CLS]") || strings.HasPrefix(ans, "[SEP]") {
-		return "", nil
+		return &map[string]interface{}{"data":""}, nil
 	} else {
-		return ans, nil // 找到答案
+		return &map[string]interface{}{"data":ans}, nil // 找到答案
 	}
 }

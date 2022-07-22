@@ -9,7 +9,8 @@ import (
 	"encoding/json"
 
 	"antigen-go/go-infer/helper"
-	"antigen-go/gotf"
+	"antigen-go/go-infer/types"
+	//"antigen-go/gotf"
 )
 
 var (
@@ -81,7 +82,7 @@ func f(payload string) {
 }
 
 func porcessApi(payload string) (string, string, error) {
-	retJson := map[string]interface{}{"code":0}
+	retJson := map[string]interface{}{"code":-1}
 
 	fields := make(map[string]interface{})
 	if err := json.Unmarshal([]byte(payload), &fields); err != nil {
@@ -106,15 +107,44 @@ func porcessApi(payload string) (string, string, error) {
 
 	var result []byte
 
+	for m := range types.ModelList {
+		if types.ModelList[m].ApiPath() == data["api"].(string) {
+			ans, err := types.ModelList[m].Infer(&map[string]interface{}{
+				"corpus" : data["corpus"].(string), 
+				"question" : data["question"].(string),
+			})
+			if err!=nil {
+				retJson["code"] = 9002
+				retJson["msg"] = err.Error()
+			} else {
+				retJson["code"] = 0
+				retJson["data"] = (*ans)["data"].(string)
+			}
+
+			break
+		}
+	} 
+
+	if retJson["code"] == -1 {
+		log.Println("faceSearch() unknown api:", data["api"])
+		result = []byte("{\"code\":-2}")
+		retJson["code"] = 9001
+		retJson["msg"] = "unknown api"		
+	}
+
+	/*
 	switch data["api"].(string) {
-	case "bert_qa":
-		ans, err := gotf.BertQA(data["corpus"].(string), data["question"].(string))
+	case types.AModel.ApiPath():
+		ans, err := types.AModel.Infer(&map[string]interface{}{
+			"corpus" : data["corpus"].(string), 
+			"question" : data["question"].(string),
+		})
 		if err!=nil {
 			retJson["code"] = 9002
 			retJson["msg"] = err.Error()
 		} else {
 			retJson["code"] = 0
-			retJson["data"] = ans
+			retJson["data"] = (*ans)["ans"].(string)
 		}
 
 	default:
@@ -123,6 +153,7 @@ func porcessApi(payload string) (string, string, error) {
 		retJson["code"] = 9001
 		retJson["msg"] = "unknown api"
 	}
+	*/
 
 	result, err := json.Marshal(retJson)
 	if err != nil {
