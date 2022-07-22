@@ -12,15 +12,6 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-
-const (
-	REDIS_SERVER = "127.0.0.1:7480"
-	REDIS_PASSWD = "e18ffb7484f4d69c2acb40008471a71c"
-	REDIS_QUEUENAME = "goinfer-synchronous-asynchronous-queue"
-	REQUEST_QUEUE_NUM = 1 // 队列数量
-	MESSAGE_TIMEOUT = 10 // 超时时间
-)
-
 var (
 	Rdb *redis.Client
 
@@ -29,27 +20,18 @@ var (
 )
 
 func init(){
-
 	// 初始化随机数发生器
 	rand.Seed(time.Now().UnixNano())
-
-	// 初始化redis连接
-	err := redis_init()
-	if err!=nil {
-		log.Fatal("Redis connecting FAIL: ", err)
-	}
-
-	//redisTest()
 }
 
 
 /* 产生随机串 */
 func randSeq(n int) string {
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letters[rand.Intn(len(letters))]
-    }
-    return string(b)
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }
 
 /* 产生 request id */
@@ -65,8 +47,8 @@ func GenerateRequestId() string {
 
 func redis_init() error {
 	Rdb = redis.NewClient(&redis.Options{
-		Addr:     REDIS_SERVER,
-		Password: REDIS_PASSWD,
+		Addr:     Settings.Redis.REDIS_SERVER,
+		Password: Settings.Redis.REDIS_PASSWD,
 		DB:       0,  // use default DB
 	})
 
@@ -97,7 +79,7 @@ func Redis_publish(queue string, message string) error {
 
 /* 返回随机队列号码 */
 func choose_queue_random() string {
-	return strconv.Itoa(rand.Intn(REQUEST_QUEUE_NUM))
+	return strconv.Itoa(rand.Intn(Settings.Redis.REQUEST_QUEUE_NUM))
 }
 
 // 发布 请求数据 到 处理队列
@@ -111,7 +93,7 @@ func Redis_publish_request(requestId string, data *map[string]interface{}) error
 		return err
 	}
 
-	queue := REDIS_QUEUENAME + choose_queue_random() // 多队列处理
+	queue := Settings.Redis.REDIS_QUEUENAME + choose_queue_random() // 多队列处理
 
 	//log.Println(queue, msgBodyMap)
 
@@ -139,7 +121,7 @@ func Redis_sub_receive(pubsub *redis.PubSub) (retBytes []byte) {
 		}
 
 		// 检查超时
-		if time.Now().Unix() - startTime > MESSAGE_TIMEOUT {
+		if time.Now().Unix() - startTime > Settings.Redis.MESSAGE_TIMEOUT {
 			retBytes = []byte("{\"code\":9997,\"msg\":\"消息队列超时\"}")
 			break
 		}
@@ -149,41 +131,3 @@ func Redis_sub_receive(pubsub *redis.PubSub) (retBytes []byte) {
 
 	return retBytes
 }
-
-
-/*----------------------------------------------------------*/
-
-func redisTest(){
-
-	log.Println("start")
-
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     REDIS_SERVER,
-		Password: REDIS_PASSWD,
-		DB:		  0,  // use default DB
-	})
-
-	log.Println("rdb")
-
-	// There is no error because go-redis automatically reconnects on error.
-	pubsub := rdb.Subscribe(context.Background(), REDIS_QUEUENAME)
-	ch := pubsub.Channel()
-	// Close the subscription when we are done.
-	defer pubsub.Close()
-	log.Println("Subscribed")
-
-	err := rdb.Publish(context.Background(), REDIS_QUEUENAME, "payload").Err()
-	if err != nil {
-		panic(err)
-	}
-
-	log.Println("published")
-
-	for msg := range ch {
-		log.Println(msg.Channel, msg.Payload)
-		break
-	}
-
-	log.Println("left")
-}
-

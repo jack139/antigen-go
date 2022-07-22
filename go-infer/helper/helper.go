@@ -19,14 +19,6 @@ var (
 	/* 日志输出使用 */
 	output  = log.New(os.Stdout, "", 0)
 
-	/* 接口验签使用 appid : appsecret */
-	APPID_SECRET = map[string]string{
-		"19E179E5DC29C05E65B90CDE57A1C7E5" : "D91CEB11EE62219CD91CEB11EE62219C",
-		"66A095861BAE55F8735199DBC45D3E8E" : "43E554621FF7BF4756F8C1ADF17F209C",
-		"75C50F018B34AC0240915EC685F5961B" : "BCB3DF17A794368E1BB0352D3D2D5F50",
-		"3EA25569454745D01219080B779F021F" : "41DF0E6AE27B5282C07EF5124642A352",
-	}
-
 	/* 返回值的 content-type */
 	strContentType     = []byte("Content-Type")
 	strApplicationJSON = []byte("application/json")
@@ -110,7 +102,7 @@ func CheckSign(content []byte) (*map[string]interface{}, error) {
 	}
 
 	// 获取 secret，用户密钥的签名串
-	secret, ok := APPID_SECRET[appId]
+	secret, ok := Settings.Api.SECRET_KEY[appId]
 	if !ok {
 		return nil, fmt.Errorf("wrong appId")
 	}

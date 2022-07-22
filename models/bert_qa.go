@@ -15,10 +15,6 @@ import (
 )
 
 const (
-	/* 预训练模型路径 */
-	modelPath = "../../nlp/qa_demo/saved-model"
-	vocabPath = "../../nlp/qa_demo/saved-model/vocab_chinese.txt"
-
 	MaxSeqLength = 512
 
 	apiPath = "/api/bert_qa"
@@ -31,11 +27,11 @@ var voc vocab.Dict
 /* 初始化模型 */
 func initModel() error {
 	var err error
-	voc, err = vocab.FromFile(vocabPath)
+	voc, err = vocab.FromFile(helper.Settings.Customer["BertVocabPath"])
 	if err != nil {
 		return err
 	}
-	m, err = tf.LoadSavedModel(modelPath, []string{"train"}, nil)
+	m, err = tf.LoadSavedModel(helper.Settings.Customer["BertModelPath"], []string{"train"}, nil)
 	if err != nil {
 		return err
 	}

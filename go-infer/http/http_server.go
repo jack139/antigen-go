@@ -1,9 +1,10 @@
 package http
 
 import (
+	"log"
+	"fmt"
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
-	"log"
 
 	"antigen-go/go-infer/helper"
 	"antigen-go/go-infer/types"
@@ -11,7 +12,7 @@ import (
 
 
 /* 入口 */
-func RunServer(port string /*, userPath string*/) {
+func RunServer() {
 
 	/* router */
 	r := router.New()
@@ -21,14 +22,15 @@ func RunServer(port string /*, userPath string*/) {
 		log.Println("router added: ", path)
 	}
 
-	log.Printf("start HTTP server at 0.0.0.0:%s\n", port)
+	host := fmt.Sprintf("%s:%d", helper.Settings.Api.Addr, helper.Settings.Api.Port)
+	log.Printf("start HTTP server at %s\n", host)
 
 	/* 启动server */
 	s := &fasthttp.Server{
 		Handler: helper.Combined(r.Handler),
-		Name:    "FastHttpLogger",
+		Name: "FastHttpLogger",
 	}
-	log.Fatal(s.ListenAndServe(":" + port))
+	log.Fatal(s.ListenAndServe(host))
 }
 
 /* 根返回 */

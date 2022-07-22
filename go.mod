@@ -11,6 +11,7 @@ require (
 	github.com/spf13/cobra v1.5.0
 	github.com/tensorflow/tensorflow v1.15.4
 	github.com/valyala/fasthttp v1.38.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

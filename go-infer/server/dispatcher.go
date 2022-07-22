@@ -10,7 +10,6 @@ import (
 
 	"antigen-go/go-infer/helper"
 	"antigen-go/go-infer/types"
-	//"antigen-go/gotf"
 )
 
 var (
@@ -38,11 +37,11 @@ func dispatcher(queueNum string) {
 	defer func(){goroutineDelta <- -1}()
 
 	// 注册消息队列
-	pubsub := helper.Rdb.Subscribe(context.Background(), helper.REDIS_QUEUENAME+queueNum)
+	pubsub := helper.Rdb.Subscribe(context.Background(), helper.Settings.Redis.REDIS_QUEUENAME+queueNum)
 	ch := pubsub.Channel()
 	defer pubsub.Close()
 
-	log.Println("rdb subscribed -->", helper.REDIS_QUEUENAME+queueNum)
+	log.Println("rdb subscribed -->", helper.Settings.Redis.REDIS_QUEUENAME+queueNum)
 
 	// 收取消息 - 一直循环
 	for msg := range ch {
@@ -89,8 +88,6 @@ func porcessApi(payload string) (string, string, error) {
 		return "", "", err
 	}
 
-	//log.Println(fields)
-
 	var requestId string
 
 	requestId, ok := fields["request_id"].(string)
@@ -102,8 +99,6 @@ func porcessApi(payload string) (string, string, error) {
 	if !ok {
 		return requestId, "", fmt.Errorf("need data")
 	}
-
-	//log.Println(data)
 
 	var result []byte
 
@@ -131,29 +126,6 @@ func porcessApi(payload string) (string, string, error) {
 		retJson["code"] = 9001
 		retJson["msg"] = "unknown api"		
 	}
-
-	/*
-	switch data["api"].(string) {
-	case types.AModel.ApiPath():
-		ans, err := types.AModel.Infer(&map[string]interface{}{
-			"corpus" : data["corpus"].(string), 
-			"question" : data["question"].(string),
-		})
-		if err!=nil {
-			retJson["code"] = 9002
-			retJson["msg"] = err.Error()
-		} else {
-			retJson["code"] = 0
-			retJson["data"] = (*ans)["ans"].(string)
-		}
-
-	default:
-		log.Println("faceSearch() unknown api:", data["api"])
-		result = []byte("{\"code\":-2}")
-		retJson["code"] = 9001
-		retJson["msg"] = "unknown api"
-	}
-	*/
 
 	result, err := json.Marshal(retJson)
 	if err != nil {
