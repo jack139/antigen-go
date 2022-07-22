@@ -25,7 +25,7 @@ build/antigen-go server 0
 ### 启动 http
 
 ```
-build/antigen-go http 5000
+build/antigen-go http
 ```
 
 
@@ -34,4 +34,11 @@ build/antigen-go http 5000
 
 ```
 python3 test_api.py 127.0.0.1 _
+```
+
+
+
+### 压力测试
+```
+python3 stress_test.py 1 1
 ```

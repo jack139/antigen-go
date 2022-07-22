@@ -6,7 +6,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type APIYaml struct {
+type apiYaml struct {
 	/* http 服务端口和绑定地址 */
 	Port int `yaml:"Port"`
 	Addr string `yaml:"Addr"`
@@ -15,7 +15,7 @@ type APIYaml struct {
 	SECRET_KEY map[string]string `yaml:"AppIdSecret"` 
 }
 
-type ServerYaml struct {
+type serverYaml struct {
 	REDIS_SERVER string `yaml:"RedisServer"`
 	REDIS_PASSWD string `yaml:"RedisPasswd"`
 	REDIS_QUEUENAME string `yaml:"QueueName"`
@@ -24,13 +24,13 @@ type ServerYaml struct {
 	MAX_WORKERS int `yaml:"MaxWorkers"`  // 最大线程数
 }
 
-type Config struct{
-	Api APIYaml `yaml:"API"`
-	Redis ServerYaml `yaml:"Server"`
+type configYaml struct{
+	Api apiYaml `yaml:"API"`
+	Redis serverYaml `yaml:"Server"`
 	Customer map[string]string `yaml:"Customer"` 
 }
 
-var Settings = Config{}
+var Settings = configYaml{}
 
 func readSettings(){
 	config, err := ioutil.ReadFile("config/settings.yaml")
