@@ -21,6 +21,7 @@ type ServerYaml struct {
 	REDIS_QUEUENAME string `yaml:"QueueName"`
 	REQUEST_QUEUE_NUM int `yaml:"RequestQueueAmount"`  // 队列数量
 	MESSAGE_TIMEOUT int64 `yaml:"MessageTimeout"`  // 超时时间
+	MAX_WORKERS int `yaml:"MaxWorkers"`  // 最大线程数
 }
 
 type Config struct{
@@ -42,6 +43,8 @@ func readSettings(){
 
 func init(){
 	readSettings()
+
+	log.Println("Settings loaded.")
 
 	// 初始化redis连接, 
 	// 不能在redis的init里初始化，要等装入参数才可以

@@ -15,7 +15,13 @@ import (
 var (
 	// Receives the change in the number of goroutines
 	goroutineDelta = make(chan int)
+
+	guard = make(chan struct{}, helper.Settings.Redis.MAX_WORKERS)
 )
+
+func init(){
+	log.Println("Dispatcher init(), MAX_WORKERS=", helper.Settings.Redis.MAX_WORKERS)
+}
 
 func RunServer(queueNum string){
 	// 启动 分发服务
@@ -48,7 +54,8 @@ func dispatcher(queueNum string) {
 		log.Printf("<-- %s [%d]", msg.Channel, len(msg.Payload))
 
 		goroutineDelta <- +1
-		go f(msg.Payload)		
+		guard <- struct{}{} // would block if guard channel is already filled
+		go f(msg.Payload)
 	}
 
 	log.Println("dispatcher() leave")
@@ -58,7 +65,10 @@ func dispatcher(queueNum string) {
 // payload 格式：
 //	{ "request_id" : "", "data": [1, 2, 3, ...]}
 func f(payload string) {
-	defer func(){goroutineDelta <- -1}()
+	defer func(){
+		goroutineDelta <- -1 
+		<-guard
+	}()
 
 	start := time.Now()
 	requestId, result, err := porcessApi(payload)
