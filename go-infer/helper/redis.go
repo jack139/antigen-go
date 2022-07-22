@@ -107,7 +107,8 @@ func Redis_subscribe(requestId string) *redis.PubSub {
 }
 
 // 接受订阅的消息，只收一条
-func Redis_sub_receive(pubsub *redis.PubSub) (retBytes []byte) {
+func Redis_sub_receive(pubsub *redis.PubSub) (*map[string]interface{}, error) {
+	var retBytes []byte
 	startTime := time.Now().Unix()
 	for {
 		msgi, err := pubsub.ReceiveTimeout(context.Background(), time.Millisecond)
@@ -129,5 +130,12 @@ func Redis_sub_receive(pubsub *redis.PubSub) (retBytes []byte) {
 		time.Sleep(2 * time.Millisecond)
 	}
 
-	return retBytes
+	// 转换成map, 生成返回数据
+	var respData map[string]interface{}
+
+	if err := json.Unmarshal(retBytes, &respData); err != nil {
+		return nil, err
+	}
+
+	return &respData, nil
 }

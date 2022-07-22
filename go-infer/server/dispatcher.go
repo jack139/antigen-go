@@ -114,16 +114,17 @@ func porcessApi(payload string) (string, string, error) {
 
 	for m := range types.ModelList {
 		if types.ModelList[m].ApiPath() == data["api"].(string) {
-			ans, err := types.ModelList[m].Infer(&map[string]interface{}{
-				"corpus" : data["corpus"].(string), 
-				"question" : data["question"].(string),
-			})
+			params, ok := data["params"].(map[string]interface{})
+			if !ok {
+				return requestId, "", fmt.Errorf("need params")
+			}
+			ret, err := types.ModelList[m].Infer(&params)
 			if err!=nil {
 				retJson["code"] = 9002
 				retJson["msg"] = err.Error()
 			} else {
 				retJson["code"] = 0
-				retJson["data"] = (*ans)["data"].(string)
+				retJson["data"] = (*ret)["data"].(string)
 			}
 
 			break
