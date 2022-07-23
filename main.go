@@ -9,7 +9,7 @@ import (
 	"antigen-go/go-infer/types"
 
 	"antigen-go/models/echo"
-	//"antigen-go/models/qa"
+	"antigen-go/models/qa"
 	"antigen-go/models/embedding"
 )
 
@@ -23,7 +23,7 @@ var (
 
 func init() {
 	// 添加模型实例
-	//types.ModelList = append(types.ModelList, &qa.BertQA{})
+	types.ModelList = append(types.ModelList, &qa.BertQA{})
 	types.ModelList = append(types.ModelList, &echo.EchoModel{})
 	types.ModelList = append(types.ModelList, &embedding.BertEMB{})
 

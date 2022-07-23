@@ -25,11 +25,11 @@ var (
 /* 初始化模型 */
 func initModel() error {
 	var err error
-	voc, err = vocab.FromFile(helper.Settings.Customer["BertPretrainVocab"])
+	voc, err = vocab.FromFile(helper.Settings.Customer["BertVocabPath"])
 	if err != nil {
 		return err
 	}
-	m, err = tf.LoadSavedModel(helper.Settings.Customer["BertPretrain"], []string{"bert-pretrained"}, nil)
+	m, err = tf.LoadSavedModel(helper.Settings.Customer["BertModelPath"], []string{"train"}, nil)
 	if err != nil {
 		return err
 	}
@@ -96,7 +96,7 @@ func (x *BertEMB) ApiEntry(reqData *map[string]interface{}) (*map[string]interfa
 
 	// 返回区块id
 	resp := map[string]interface{}{
-		"data" : (*respData)["data"].([][][]float32),  // data 数据
+		"data" : (*respData)["data"].([]interface{}),  // data 数据
 	}
 
 	return &resp, nil
@@ -118,7 +118,11 @@ func (x *BertEMB) Infer(reqData *map[string]interface{}) (*map[string]interface{
 	if err != nil {
 		return nil, err
 	}
-	mask, err := tf.NewTensor([][]int32{f.Mask})
+	new_mask := make([]float32, len(f.Mask))
+	for i, v := range f.Mask {
+		new_mask[i] = float32(v)
+	}
+	mask, err := tf.NewTensor([][]float32{new_mask})
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +138,7 @@ func (x *BertEMB) Infer(reqData *map[string]interface{}) (*map[string]interface{
 			m.Graph.Operation("segment_ids").Output(0):    sids,
 		},
 		[]tf.Output{
-			m.Graph.Operation("embedding").Output(0),
+			m.Graph.Operation("finetune_mrc/Squeeze").Output(0),
 		},
 		nil,
 	)
@@ -142,6 +146,6 @@ func (x *BertEMB) Infer(reqData *map[string]interface{}) (*map[string]interface{
 		return nil, err
 	}
 
-	ret := res[0].Value().([][][]float32)
-	return &map[string]interface{}{"data":ret}, nil
+	ret := res[0].Value().([][]float32)
+	return &map[string]interface{}{"data":ret[0]}, nil
 }

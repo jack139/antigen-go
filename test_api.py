@@ -67,8 +67,8 @@ if __name__ == '__main__':
     
 
     #url = host+'/api/echo'
-    #url = host+'/api/bert_qa'
-    url = host+'/api/embedding'
+    url = host+'/api/bert_qa'
+    #url = host+'/api/embedding'
 
     start_time = datetime.now()
     r = pool.urlopen('POST', url, body=body)

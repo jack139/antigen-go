@@ -124,7 +124,7 @@ func porcessApi(payload string) (string, string, error) {
 				retJson["msg"] = err.Error()
 			} else {
 				retJson["code"] = 0
-				retJson["data"] = (*ret)["data"].(string)
+				retJson["data"] = (*ret)["data"]
 			}
 
 			break
