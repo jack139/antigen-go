@@ -8,11 +8,10 @@ import (
 	"github.com/buckhx/gobert/tokenize/vocab"
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 
-	"antigen-go/go-infer/helper"
+	"github.com/jack139/go-infer/helper"
 )
 
 const (
-	apiPath = "/api/embedding"
 	MaxSeqLength = 512
 )
 
@@ -51,7 +50,7 @@ func (x *BertEMB) Init() error {
 }
 
 func (x *BertEMB) ApiPath() string {
-	return apiPath
+	return "/api/embedding"
 }
 
 func (x *BertEMB) ApiEntry(reqData *map[string]interface{}) (*map[string]interface{}, error) {
@@ -65,41 +64,13 @@ func (x *BertEMB) ApiEntry(reqData *map[string]interface{}) (*map[string]interfa
 
 	// 构建请求参数
 	reqDataMap := map[string]interface{}{
-		"api": apiPath,
+		"api": x.ApiPath(),
 		"params": map[string]interface{}{
 			"text": text,
 		},
 	}
 
-	requestId := helper.GenerateRequestId()
-
-	// 注册消息队列，在发redis消息前注册, 防止消息漏掉
-	pubsub := helper.Redis_subscribe(requestId)
-	defer pubsub.Close()
-
-	// 发 请求消息
-	err := helper.Redis_publish_request(requestId, &reqDataMap)
-	if err!=nil {
-		return &map[string]interface{}{"code":9103}, err
-	}
-
-	// 收 结果消息
-	respData, err := helper.Redis_sub_receive(pubsub)
-	if err!=nil {
-		return &map[string]interface{}{"code":9104}, err
-	}
-
-	// code==0 提交成功
-	if (*respData)["code"].(float64)!=0 { 
-		return &map[string]interface{}{"code":int((*respData)["code"].(float64))}, fmt.Errorf((*respData)["msg"].(string))
-	}
-
-	// 返回区块id
-	resp := map[string]interface{}{
-		"data" : (*respData)["data"].([]interface{}),  // data 数据
-	}
-
-	return &resp, nil
+	return &reqDataMap, nil
 }
 
 

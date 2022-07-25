@@ -5,10 +5,9 @@ import (
 	"os"
 	"github.com/spf13/cobra"
 
-	"antigen-go/go-infer/cli"
-	"antigen-go/go-infer/types"
+	"github.com/jack139/go-infer/cli"
+	"github.com/jack139/go-infer/types"
 
-	"antigen-go/models/echo"
 	"antigen-go/models/qa"
 	"antigen-go/models/embedding"
 )
@@ -24,13 +23,7 @@ var (
 func init() {
 	// 添加模型实例
 	types.ModelList = append(types.ModelList, &qa.BertQA{})
-	types.ModelList = append(types.ModelList, &echo.EchoModel{})
 	types.ModelList = append(types.ModelList, &embedding.BertEMB{})
-
-	// 添加 api 入口
-	for m := range types.ModelList {
-		types.EntryMap[types.ModelList[m].ApiPath()] = types.ModelList[m].ApiEntry
-	}
 
 	// 命令行设置
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
