@@ -12,5 +12,5 @@ require (
 	github.com/tensorflow/tensorflow v1.15.4
 	github.com/valyala/fasthttp v1.38.0
 	gopkg.in/yaml.v3 v3.0.1
-	github.com/jack139/go-infer v0.0.9
+	github.com/jack139/go-infer v0.1.0
 )

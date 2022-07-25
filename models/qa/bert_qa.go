@@ -71,11 +71,8 @@ func (x *BertQA) ApiEntry(reqData *map[string]interface{}) (*map[string]interfac
 
 	// 构建请求参数
 	reqDataMap := map[string]interface{}{
-		"api": x.ApiPath(),
-		"params": map[string]interface{}{
-			"corpus": corpus,
-			"question": question,
-		},
+		"corpus": corpus,
+		"question": question,
 	}
 
 	return &reqDataMap, nil
