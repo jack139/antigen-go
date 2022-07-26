@@ -13,8 +13,8 @@ import (
 
 var (
 	// 用户密钥
-	//privBase64 = string("vK3iPBFMwKvXfS6QG3s0fKNPjGnLy90VI+PI0kzQ3o0=")
-	privBase64 = string("JShsBOJL0RgPAoPttEB1hgtPAvCikOl0V1oTOYL7k5U=")
+	privBase64 = string("vK3iPBFMwKvXfS6QG3s0fKNPjGnLy90VI+PI0kzQ3o0=")
+	//privBase64 = string("JShsBOJL0RgPAoPttEB1hgtPAvCikOl0V1oTOYL7k5U=")
 
 	privKey *sm2.PrivateKey
 	pubKey *sm2.PublicKey
