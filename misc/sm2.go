@@ -13,7 +13,8 @@ import (
 
 var (
 	// 用户密钥
-	privBase64 = string("vK3iPBFMwKvXfS6QG3s0fKNPjGnLy90VI+PI0kzQ3o0=")
+	//privBase64 = string("vK3iPBFMwKvXfS6QG3s0fKNPjGnLy90VI+PI0kzQ3o0=")
+	privBase64 = string("JShsBOJL0RgPAoPttEB1hgtPAvCikOl0V1oTOYL7k5U=")
 
 	privKey *sm2.PrivateKey
 	pubKey *sm2.PublicKey
@@ -22,7 +23,7 @@ var (
 func init(){
 	// base64 恢复私钥
 	privKey, _ = restoreKey(privBase64)
-	//fmt.Printf("D: %x\nX: %x\nY: %x\n", priv.D, priv.PublicKey.X, priv.PublicKey.Y)
+	fmt.Printf("D: %x\nX: %x\nY: %x\n", privKey.D, privKey.PublicKey.X, privKey.PublicKey.Y)
 
 	// 公钥
 	pubKey = &privKey.PublicKey
