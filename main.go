@@ -9,7 +9,6 @@ import (
 	"github.com/jack139/go-infer/types"
 
 	"antigen-go/models/qa"
-	"antigen-go/models/embedding"
 )
 
 
@@ -23,7 +22,6 @@ var (
 func init() {
 	// 添加模型实例
 	types.ModelList = append(types.ModelList, &qa.BertQA{})
-	types.ModelList = append(types.ModelList, &embedding.BertEMB{})
 
 	// 命令行设置
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
