@@ -23,8 +23,8 @@ if __name__ == '__main__':
     hostname = sys.argv[1]
     filepath = sys.argv[2]
 
-    #with open(filepath, 'rb') as f:
-    #    img_data = f.read()
+    with open(filepath, 'rb') as f:
+        img_data = f.read()
 
     body = {
         'version'  : '1',
@@ -32,11 +32,10 @@ if __name__ == '__main__':
         'signType' : 'SM2',
         'encType'  : 'plain',
         'data'     : {
-            #'image'    : base64.b64encode(img_data).decode('utf-8'),
-            'image'    : '',
-            'corpus'   : "金字塔（英语：pyramid），在建筑学上是指锥体建筑物，著名的有埃及金字塔，还有玛雅卡斯蒂略金字塔、阿兹特克金字塔（太阳金字塔、月亮金字塔）等。",
-            'question' : "金字塔是什么？",
-            'text'     : "测试测试",
+            'image'    : base64.b64encode(img_data).decode('utf-8'),
+            #'corpus'   : "金字塔（英语：pyramid），在建筑学上是指锥体建筑物，著名的有埃及金字塔，还有玛雅卡斯蒂略金字塔、阿兹特克金字塔（太阳金字塔、月亮金字塔）等。",
+            #'question' : "金字塔是什么？",
+            #'text'     : "测试测试",
         }
     }
 
@@ -65,8 +64,8 @@ if __name__ == '__main__':
     host = 'http://%s:5000'%hostname
     
 
-    url = host+'/api/bert_qa'
-    #url = host+'/api/embedding'
+    #url = host+'/api/bert_qa'
+    url = host+'/antigen/check'
 
     start_time = datetime.now()
     r = pool.urlopen('POST', url, body=body)
