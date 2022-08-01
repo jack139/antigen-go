@@ -94,6 +94,7 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 	log.Println(tensor.Value())
 	log.Println(tensor.Shape())
 
+
 	// locate 模型推理
 	res, err := mLocate.Session.Run(
 		map[tf.Output]*tf.Tensor{
