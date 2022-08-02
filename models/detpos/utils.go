@@ -4,12 +4,10 @@ import (
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 	"github.com/tensorflow/tensorflow/tensorflow/go/op"
 
-	"log"
-	"os"
-	//"image/draw"
+	//"log"
 	"bytes"
 	"image"
-	"image/jpeg"
+	"image/color"
 	"math"
 
 	"github.com/disintegration/imaging"
@@ -23,44 +21,41 @@ import (
 // This function constructs a graph of TensorFlow operations which takes as
 // input a JPEG-encoded string and returns a tensor suitable as input to the
 // inception model.
-func constructGraphToNormalizeImage() (graph *tf.Graph, input, output tf.Output, err error) {
-	// Some constants specific to the pre-trained model at:
-	// https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip
-	//
-	// - The model was trained after with images scaled to 224x224 pixels.
+func constructGraphToNormalizeImage(H, W int32, mean, scale float32, toBGR bool) (graph *tf.Graph, input, output tf.Output, err error) {
+	// - The model was trained after with images scaled to scale*scale pixels.
 	// - The colors, represented as R, G, B in 1-byte each were converted to
 	//   float using (value - Mean)/Scale.
-	const (
-		H, W  = 256, 256
-		Mean  = float32(0)
-		Scale = float32(255)
-	)
-	// - input is a String-Tensor, where the string the JPEG-encoded image.
+
+	// - input is a String-Tensor, where the string the JPEG-encoded image. PNG also supported
 	// - The inception model takes a 4D tensor of shape
 	//   [BatchSize, Height, Width, Colors=3], where each pixel is
 	//   represented as a triplet of floats
 	// - Apply normalization on each pixel and use ExpandDims to make
 	//   this single image be a "batch" of size 1 for ResizeBilinear.
+
+	// toBGR indicated whether changing RGB order to BGR
 	s := op.NewScope()
 	input = op.Placeholder(s, tf.String)
-	output = op.ReverseV2(s, 
-		op.Div(s,
-			op.Sub(s,
-				op.ResizeBilinear(s,
-					op.ExpandDims(s,
-						op.Cast(s,
-							op.DecodeJpeg(s, input, op.DecodeJpegChannels(3)), tf.Float),
-						op.Const(s.SubScope("make_batch"), int32(0))),
-					op.Const(s.SubScope("size"), []int32{H, W})),
-				op.Const(s.SubScope("mean"), Mean)),
-			op.Const(s.SubScope("scale"), Scale)), 
-		op.Const(s, []int32{-1}))
+	output = op.Div(s,
+		op.Sub(s,
+			op.ResizeBilinear(s,
+				op.ExpandDims(s,
+					op.Cast(s,
+						op.DecodeJpeg(s, input, op.DecodeJpegChannels(3)), tf.Float),
+					op.Const(s.SubScope("make_batch"), int32(0))),
+				op.Const(s.SubScope("size"), []int32{H, W})),
+			op.Const(s.SubScope("mean"), mean)),
+		op.Const(s.SubScope("scale"), scale))
+	// RGB to BGR
+	if toBGR {
+		output = op.ReverseV2(s, output, op.Const(s, []int32{-1}))
+	}
 	graph, err = s.Finalize()
 	return graph, input, output, err
 }
 
 // Convert the image in filename to a Tensor suitable as input
-func makeTensorFromBytes(bytes []byte) (*tf.Tensor, error) {
+func makeTensorFromBytes(bytes []byte, H, W int32, mean, scale float32, toBGR bool) (*tf.Tensor, error) {
 	// bytes to tensor
 	tensor, err := tf.NewTensor(string(bytes))
 	if err != nil {
@@ -68,7 +63,7 @@ func makeTensorFromBytes(bytes []byte) (*tf.Tensor, error) {
 	}
 
 	// create batch
-	graph, input, output, err := constructGraphToNormalizeImage()
+	graph, input, output, err := constructGraphToNormalizeImage(H, W, mean, scale, toBGR)
 	if err != nil {
 		return nil, err
 	}
@@ -95,14 +90,16 @@ func makeTensorFromBytes(bytes []byte) (*tf.Tensor, error) {
 
 
 // 计算box和旋转角度
-func cropBox(imageByte []byte, box1 []float32) ([]int, int) {
+func cropBox(imageByte []byte, box1 []float32) (*image.NRGBA, error) {
 	var x1, y1, x2, y2 float32
 
 	reader := bytes.NewReader(imageByte)
 
-	img, _, _ := image.Decode(reader)
-
-	log.Printf("%v", img.Bounds())
+	//img, _, _ := image.Decode(reader)
+	img, err := imaging.Decode(reader)
+	if err!=nil {
+		return nil, err
+	}
 
 	w := float32(img.Bounds().Dx())
 	h := float32(img.Bounds().Dy())
@@ -111,8 +108,6 @@ func cropBox(imageByte []byte, box1 []float32) ([]int, int) {
 	box1[1] *= h
 	box1[2] *= w
 	box1[3] *= h
-
-	log.Println("box1: ", box1)
 
 	// 计算需选择角度
 	rotate_angle := 0
@@ -135,23 +130,17 @@ func cropBox(imageByte []byte, box1 []float32) ([]int, int) {
 		}
 	}
 
-	//x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
-
 	if math.Abs(float64(x1-x2))<12 || math.Abs(float64(y1-y2))<12 { // 没有结果
-		return nil, 0
+		return nil, nil
 	}
 
-	_ = cropAndRotate(&img, []int{int(x1), int(y1), int(x2), int(y2)}, rotate_angle)
-
-	//saveImage("data/test.jpg", crop)
-
-	return []int{int(x1), int(y1), int(x2), int(y2)}, rotate_angle
+	return cropAndRotate(img, []int{int(x1), int(y1), int(x2), int(y2)}, rotate_angle), nil
 }
 
 // 挖出局部图片，并旋转
-func cropAndRotate(src *image.Image, box []int, rotate_angle int) *image.NRGBA {
+func cropAndRotate(src image.Image, box []int, rotate_angle int) *image.NRGBA {
 
-	log.Println("crop box: ", box)
+	//log.Printf("box: %v rotate_angle: %v", box, rotate_angle)
 
 	// 截取的框
 	sr := image.Rectangle{
@@ -160,28 +149,67 @@ func cropAndRotate(src *image.Image, box []int, rotate_angle int) *image.NRGBA {
 	}
 
 	// 截取
-	src2 := imaging.Crop(*src, sr)
+	src2 := imaging.Crop(src, sr)
 
-	saveImage("data/test1.jpg", src2)
+	//_ = imaging.Save(src2, "data/test1.jpg")
 
 	// 旋转
 	switch rotate_angle {
 	case 90:
-		src2 = imaging.Rotate90(src2)
+		src2 = imaging.Rotate270(src2)
 	case 180:
 		src2 = imaging.Rotate180(src2)
 	case 270:
-		src2 = imaging.Rotate270(src2)
+		src2 = imaging.Rotate90(src2)
 	}
 
-	saveImage("data/test2.jpg", src2)
+	//_ = imaging.Save(src2, "data/test2.jpg")
 
 	return src2
 }
 
-func saveImage(filename string, img *image.NRGBA){
-	toimg, _ := os.Create(filename)
-	defer toimg.Close()
 
-	jpeg.Encode(toimg, img, &jpeg.Options{jpeg.DefaultQuality})
+
+// image 转换为 bytes
+func image2bytes(img image.Image) ([]byte, error) {
+	// 转换为 []byte
+	buf := new(bytes.Buffer)
+	err := imaging.Encode(buf, img, imaging.JPEG)
+	if err!=nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil	
+}
+
+// 概率转换为结果标签
+func bestLabel(probabilities []float32) string{
+	var labels = []string{"fal", "neg", "non", "nul", "pos"}
+
+	bestIdx := 0
+	for i, p := range probabilities {
+		if p > probabilities[bestIdx] {
+			bestIdx = i
+		}
+	}
+
+	return labels[bestIdx]
+}
+
+// 调整为方形，黑色填充
+func padBox(src image.Image) *image.NRGBA {
+	var maxW int
+
+	if src.Bounds().Dx() > src.Bounds().Dy() {
+		maxW = src.Bounds().Dx()
+	} else {
+		maxW = src.Bounds().Dy()
+	}
+
+	dst := imaging.New(maxW, maxW, color.Black)
+	dst = imaging.PasteCenter(dst, src)
+
+	//_ = imaging.Save(dst, "data/test3.jpg")
+
+	return dst
 }

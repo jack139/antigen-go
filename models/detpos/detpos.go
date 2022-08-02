@@ -18,7 +18,7 @@ const (
 /* 训练好的模型权重 */
 var (
 	mLocate *tf.SavedModel
-	//mDetpos *tf.SavedModel
+	mDetpos *tf.SavedModel
 )
 
 /* 初始化模型 */
@@ -29,10 +29,10 @@ func initModel() error {
 		return err
 	}
 
-	//mDetpos, err = tf.LoadSavedModel(helper.Settings.Customer["DetposModelPath"], []string{"train"}, nil)
-	//if err != nil {
-	//	return err
-	//}
+	mDetpos, err = tf.LoadSavedModel(helper.Settings.Customer["DetposModelPath"], []string{"train"}, nil)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -86,13 +86,13 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 	}
 
 	// 转换张量
-	tensor, err := makeTensorFromBytes(image)
+	tensor, err := makeTensorFromBytes(image, 256, 256, 0.0, 255.0, true)
 	if err!=nil {
 		return &map[string]interface{}{"code":9003}, err
 	}
 
 	//log.Println(tensor.Value())
-	//log.Println(tensor.Shape())
+	//log.Println("locate tensor: ", tensor.Shape())
 
 
 	// locate 模型推理
@@ -111,12 +111,52 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 
 	ret := res[0].Value().([][]float32)
 
-	//log.Println(ret)
+	log.Println("locate result: ", ret)
 
-	box, rotateAngle := cropBox(image, ret[0])
+	// 使用 locate 结果，进行截图
+	cropImage, err := cropBox(image, ret[0])
+	if err != nil {
+		return &map[string]interface{}{"code":9005}, err
+	}
 
-	log.Println(box, rotateAngle)
+	// 填充成正方形
+	cropImage = padBox(cropImage)
 
-	return &map[string]interface{}{"embeddings":ret[0]}, nil
+	// 转换 为 字节流
+	cropByte, err := image2bytes(cropImage)
+	if err != nil {
+		return &map[string]interface{}{"code":9006}, err
+	}
+
+	// ----------- detpos 模型 识别 
+
+	// 转换张量
+	tensor, err = makeTensorFromBytes(cropByte, 128, 128, 0.0, 1.0, true)
+	if err!=nil {
+		return &map[string]interface{}{"code":9007}, err
+	}
+
+	//log.Println(tensor.Value())
+	//log.Println("detpos tensor: ", tensor.Shape())
+
+	// detpos 模型推理
+	res, err = mDetpos.Session.Run(
+		map[tf.Output]*tf.Tensor{
+			mDetpos.Graph.Operation("input_1").Output(0): tensor,
+		},
+		[]tf.Output{
+			mDetpos.Graph.Operation("dense_1/Softmax").Output(0),
+		},
+		nil,
+	)
+	if err != nil {
+		return &map[string]interface{}{"code":9008}, err
+	}
+
+	ret = res[0].Value().([][]float32)
+
+	log.Printf("detpos result: %v", ret)
+
+	return &map[string]interface{}{"result":bestLabel(ret[0])}, nil
 
 }
