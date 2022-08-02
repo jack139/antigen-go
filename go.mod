@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/aclements/go-gg v0.0.0-20170323211221-abd1f791f5ee
 	github.com/buckhx/gobert v0.0.0-20190731141805-265756fed232
+	github.com/disintegration/imaging v1.6.2
 	github.com/fasthttp/router v1.4.10
 	github.com/ferluci/fast-realip v1.0.1
 	github.com/go-redis/redis/v8 v8.11.5

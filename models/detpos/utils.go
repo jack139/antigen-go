@@ -6,11 +6,13 @@ import (
 
 	"log"
 	"os"
-	"image/draw"
+	//"image/draw"
 	"bytes"
 	"image"
 	"image/jpeg"
 	"math"
+
+	"github.com/disintegration/imaging"
 )
 
 /*
@@ -139,32 +141,45 @@ func cropBox(imageByte []byte, box1 []float32) ([]int, int) {
 		return nil, 0
 	}
 
-	crop := cropImage(&img, []int{int(x1), int(y1), int(x2), int(y2)}, rotate_angle)
+	_ = cropAndRotate(&img, []int{int(x1), int(y1), int(x2), int(y2)}, rotate_angle)
 
-	saveImage("data/test.jpg", crop)
+	//saveImage("data/test.jpg", crop)
 
 	return []int{int(x1), int(y1), int(x2), int(y2)}, rotate_angle
 }
 
 // 挖出局部图片，并旋转
-func cropImage(src *image.Image, box []int, rotate_angle int) *image.RGBA {
+func cropAndRotate(src *image.Image, box []int, rotate_angle int) *image.NRGBA {
 
 	log.Println("crop box: ", box)
 
-	dst := image.NewRGBA(image.Rect(0, 0, box[2]-box[0], box[3]-box[1]))
-
-	dp := dst.Bounds().Min
+	// 截取的框
 	sr := image.Rectangle{
 		image.Point{box[0], box[1]}, 
 		image.Point{box[2], box[3]},
 	}
-	r := image.Rectangle{dp, dp.Add(sr.Size())}
-	draw.Draw(dst, r, *src, sr.Min, draw.Src)
 
-	return dst
+	// 截取
+	src2 := imaging.Crop(*src, sr)
+
+	saveImage("data/test1.jpg", src2)
+
+	// 旋转
+	switch rotate_angle {
+	case 90:
+		src2 = imaging.Rotate90(src2)
+	case 180:
+		src2 = imaging.Rotate180(src2)
+	case 270:
+		src2 = imaging.Rotate270(src2)
+	}
+
+	saveImage("data/test2.jpg", src2)
+
+	return src2
 }
 
-func saveImage(filename string, img *image.RGBA){
+func saveImage(filename string, img *image.NRGBA){
 	toimg, _ := os.Create(filename)
 	defer toimg.Close()
 
