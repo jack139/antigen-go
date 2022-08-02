@@ -41,7 +41,7 @@ func constructGraphToNormalizeImage() (graph *tf.Graph, input, output tf.Output,
 	//   this single image be a "batch" of size 1 for ResizeBilinear.
 	s := op.NewScope()
 	input = op.Placeholder(s, tf.String)
-	output = op.Reverse(s, 
+	output = op.ReverseV2(s, 
 		op.Div(s,
 			op.Sub(s,
 				op.ResizeBilinear(s,
@@ -52,22 +52,7 @@ func constructGraphToNormalizeImage() (graph *tf.Graph, input, output tf.Output,
 					op.Const(s.SubScope("size"), []int32{H, W})),
 				op.Const(s.SubScope("mean"), Mean)),
 			op.Const(s.SubScope("scale"), Scale)), 
-		op.Const(s, []bool{false, false, false, true}))
-
-	/* 转换为 双精度 ？？？ 会报错，类型不匹配
-	output = op.Reverse(s, 
-		op.Div(s,
-			op.Sub(s,
-				op.ResizeBilinear(s,
-					op.ExpandDims(s,
-						op.Cast(s,
-							op.DecodeJpeg(s, input, op.DecodeJpegChannels(3)), tf.Double),
-						op.Const(s.SubScope("make_batch"), int32(0))),
-					op.Const(s.SubScope("size"), []int32{H, W})),
-				op.Cast(s.SubScope("cast_mean"), op.Const(s.SubScope("cast_mean"), Mean), tf.Double) ),
-			op.Cast(s.SubScope("cast_scale"), op.Const(s, Scale), tf.Double) ), 
-		op.Const(s.SubScope("reverse"), []bool{false, false, false, true}))
-	*/
+		op.Const(s, []int32{-1}))
 	graph, err = s.Finalize()
 	return graph, input, output, err
 }

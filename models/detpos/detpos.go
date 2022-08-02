@@ -18,7 +18,7 @@ const (
 /* 训练好的模型权重 */
 var (
 	mLocate *tf.SavedModel
-	mDetpos *tf.SavedModel
+	//mDetpos *tf.SavedModel
 )
 
 /* 初始化模型 */
@@ -29,10 +29,10 @@ func initModel() error {
 		return err
 	}
 
-	mDetpos, err = tf.LoadSavedModel(helper.Settings.Customer["DetposModelPath"], []string{"train"}, nil)
-	if err != nil {
-		return err
-	}
+	//mDetpos, err = tf.LoadSavedModel(helper.Settings.Customer["DetposModelPath"], []string{"train"}, nil)
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 }
@@ -91,8 +91,8 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 		return &map[string]interface{}{"code":9003}, err
 	}
 
-	log.Println(tensor.Value())
-	log.Println(tensor.Shape())
+	//log.Println(tensor.Value())
+	//log.Println(tensor.Shape())
 
 
 	// locate 模型推理
@@ -111,7 +111,7 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 
 	ret := res[0].Value().([][]float32)
 
-	log.Println(ret)
+	//log.Println(ret)
 
 	box, rotateAngle := cropBox(image, ret[0])
 
