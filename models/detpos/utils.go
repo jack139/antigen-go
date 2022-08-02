@@ -4,13 +4,24 @@ import (
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 	"github.com/tensorflow/tensorflow/tensorflow/go/op"
 
-	//"log"
 	"bytes"
 	"image"
 	"image/color"
 	"math"
 
 	"github.com/disintegration/imaging"
+)
+
+var (
+	detposLabels = []string{"fal", "neg", "non", "nul", "pos"}
+
+	resultMap = map[string]string{
+		"pos"  : "positive",
+		"neg"  : "negative",
+		"none" : "invalid", //'not_found',
+		"fal"  : "invalid",
+		"nul"  : "invalid",
+	}
 )
 
 /*
@@ -54,7 +65,7 @@ func constructGraphToNormalizeImage(H, W int32, mean, scale float32, toBGR bool)
 	return graph, input, output, err
 }
 
-// Convert the image in filename to a Tensor suitable as input
+// Convert the image bytes to a Tensor suitable as input
 func makeTensorFromBytes(bytes []byte, H, W int32, mean, scale float32, toBGR bool) (*tf.Tensor, error) {
 	// bytes to tensor
 	tensor, err := tf.NewTensor(string(bytes))
@@ -95,7 +106,6 @@ func cropBox(imageByte []byte, box1 []float32) (*image.NRGBA, error) {
 
 	reader := bytes.NewReader(imageByte)
 
-	//img, _, _ := image.Decode(reader)
 	img, err := imaging.Decode(reader)
 	if err!=nil {
 		return nil, err
@@ -139,9 +149,6 @@ func cropBox(imageByte []byte, box1 []float32) (*image.NRGBA, error) {
 
 // 挖出局部图片，并旋转
 func cropAndRotate(src image.Image, box []int, rotate_angle int) *image.NRGBA {
-
-	//log.Printf("box: %v rotate_angle: %v", box, rotate_angle)
-
 	// 截取的框
 	sr := image.Rectangle{
 		image.Point{box[0], box[1]}, 
@@ -182,19 +189,6 @@ func image2bytes(img image.Image) ([]byte, error) {
 	return buf.Bytes(), nil	
 }
 
-// 概率转换为结果标签
-func bestLabel(probabilities []float32) string{
-	var labels = []string{"fal", "neg", "non", "nul", "pos"}
-
-	bestIdx := 0
-	for i, p := range probabilities {
-		if p > probabilities[bestIdx] {
-			bestIdx = i
-		}
-	}
-
-	return labels[bestIdx]
-}
 
 // 调整为方形，黑色填充
 func padBox(src image.Image) *image.NRGBA {
@@ -212,4 +206,17 @@ func padBox(src image.Image) *image.NRGBA {
 	//_ = imaging.Save(dst, "data/test3.jpg")
 
 	return dst
+}
+
+
+// 概率转换为结果标签
+func bestLabel(probabilities []float32) string{
+	bestIdx := 0
+	for i, p := range probabilities {
+		if p > probabilities[bestIdx] {
+			bestIdx = i
+		}
+	}
+
+	return detposLabels[bestIdx]
 }

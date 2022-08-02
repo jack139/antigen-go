@@ -157,6 +157,15 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 
 	log.Printf("detpos result: %v", ret)
 
-	return &map[string]interface{}{"result":bestLabel(ret[0])}, nil
+	// 转换标签，准备返回结果
+	r := bestLabel(ret[0])
+	r2 := "invaild"
+	if r=="non" {
+		r = "none"
+	}
+	if val, ok := resultMap[r]; ok {
+		r2 = val
+	}
 
+	return &map[string]interface{}{"result":r2, "comment":r}, nil
 }
