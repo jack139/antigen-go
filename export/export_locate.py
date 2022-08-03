@@ -17,7 +17,7 @@ model.load_weights("../../antigen/ckpt/locate_onebox_resnet-fpn_b128_e24_0.94362
 model.summary()
 
 
-save_model_path = "outputs/saved-model_locate"
+save_model_path = "outputs/saved-model_locate_onebox_resnet-fpn_b128_e24_0.94362"
 if os.path.exists(save_model_path):
     shutil.rmtree(save_model_path) 
 os.makedirs(save_model_path)

@@ -23,7 +23,7 @@ model.load_weights("../../antigen/ckpt/detpos_5labels_vgg16_b512_e10_1.0000.h5")
 model.summary()
 
 
-save_model_path = "outputs/saved-model_detpos"
+save_model_path = "outputs/saved-model_detpos_5labels_vgg16_b512_e10_1.0000"
 if os.path.exists(save_model_path):
     shutil.rmtree(save_model_path) 
 os.makedirs(save_model_path)

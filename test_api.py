@@ -15,30 +15,7 @@ def gen_param_str(param1):
     return '&'.join(['%s=%s'%(str(i), str(param[i])) for i in name_list if str(param[i])!=''])
 
 
-if __name__ == '__main__':
-    if len(sys.argv)<2:
-        print("usage: python3 %s <host> <image_path>" % sys.argv[0])
-        sys.exit(2)
-
-    hostname = sys.argv[1]
-    filepath = sys.argv[2]
-
-    with open(filepath, 'rb') as f:
-        img_data = f.read()
-
-    body = {
-        'version'  : '1',
-        #'signType' : 'SHA256', 
-        'signType' : 'SM2',
-        'encType'  : 'plain',
-        'data'     : {
-            'image'    : base64.b64encode(img_data).decode('utf-8'),
-            #'corpus'   : "金字塔（英语：pyramid），在建筑学上是指锥体建筑物，著名的有埃及金字塔，还有玛雅卡斯蒂略金字塔、阿兹特克金字塔（太阳金字塔、月亮金字塔）等。",
-            #'question' : "金字塔是什么？",
-            #'text'     : "测试测试",
-        }
-    }
-
+def request(hostname, body):
     appid = '66A095861BAE55F8735199DBC45D3E8E'
     unixtime = int(time.time())
     body['timestamp'] = unixtime
@@ -69,7 +46,37 @@ if __name__ == '__main__':
 
     start_time = datetime.now()
     r = pool.urlopen('POST', url, body=body)
-    print('[Time taken: {!s}]'.format(datetime.now() - start_time))
+    #print('[Time taken: {!s}]'.format(datetime.now() - start_time))
+
+    return r
+
+
+
+if __name__ == '__main__':
+    if len(sys.argv)<2:
+        print("usage: python3 %s <host> <image_path>" % sys.argv[0])
+        sys.exit(2)
+
+    hostname = sys.argv[1]
+    filepath = sys.argv[2]
+
+    with open(filepath, 'rb') as f:
+        img_data = f.read()
+
+    body = {
+        'version'  : '1',
+        #'signType' : 'SHA256', 
+        'signType' : 'SM2',
+        'encType'  : 'plain',
+        'data'     : {
+            'image'    : base64.b64encode(img_data).decode('utf-8'),
+            #'corpus'   : "金字塔（英语：pyramid），在建筑学上是指锥体建筑物，著名的有埃及金字塔，还有玛雅卡斯蒂略金字塔、阿兹特克金字塔（太阳金字塔、月亮金字塔）等。",
+            #'question' : "金字塔是什么？",
+            #'text'     : "测试测试",
+        }
+    }
+
+    r = request(hostname, body)
 
     print(r.status)
     if r.status==200:

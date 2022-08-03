@@ -119,6 +119,11 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 		return &map[string]interface{}{"code":9005}, err
 	}
 
+	if cropImage == nil { // 未定位到 目标， 返回 none 结果
+		r := "none"
+		return &map[string]interface{}{"result": resultMap[r], "comment":r}, nil
+	}
+
 	// 填充成正方形
 	cropImage = padBox(cropImage)
 
