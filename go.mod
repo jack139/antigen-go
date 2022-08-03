@@ -9,7 +9,7 @@ require (
 	github.com/fasthttp/router v1.4.10
 	github.com/ferluci/fast-realip v1.0.1
 	github.com/go-redis/redis/v8 v8.11.5
-	github.com/jack139/go-infer v0.1.6
+	github.com/jack139/go-infer v0.1.7
 	github.com/spf13/cobra v1.5.0
 	github.com/tensorflow/tensorflow v1.15.4
 	github.com/tjfoc/gmsm v1.4.1 // indirect

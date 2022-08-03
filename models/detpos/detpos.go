@@ -1,10 +1,13 @@
 package detpos
 
 import (
+	"os"
+	"time"
 	"fmt"
 	"log"
 	"strconv"
 	"encoding/base64"
+	"io/ioutil"
 
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 
@@ -68,7 +71,7 @@ func (x *DetPos) ApiEntry(reqData *map[string]interface{}) (*map[string]interfac
 
 
 // 推理
-func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}, error) {
+func (x *DetPos) Infer(requestId string, reqData *map[string]interface{}) (*map[string]interface{}, error) {
 	log.Println("Infer_DetPos")
 
 	imageBase64 := (*reqData)["image"].(string)
@@ -119,16 +122,19 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 		return &map[string]interface{}{"code":9005}, err
 	}
 
+	var r string
+	var cropByte []byte  // 因为下面使用 goto, 所以要在这声明变量
+
 	if cropImage == nil { // 未定位到 目标， 返回 none 结果
-		r := "none"
-		return &map[string]interface{}{"result": resultMap[r], "comment":r}, nil
+		r = "none"
+		goto return_result
 	}
 
 	// 填充成正方形
 	cropImage = padBox(cropImage)
 
 	// 转换 为 字节流
-	cropByte, err := image2bytes(cropImage)
+	cropByte, err = image2bytes(cropImage)
 	if err != nil {
 		return &map[string]interface{}{"code":9006}, err
 	}
@@ -163,13 +169,31 @@ func (x *DetPos) Infer(reqData *map[string]interface{}) (*map[string]interface{}
 	log.Printf("detpos result: %v", ret)
 
 	// 转换标签，准备返回结果
-	r := bestLabel(ret[0])
+	r = bestLabel(ret[0])
+
+return_result:
+
 	r2 := "invaild"
-	if r=="non" {
+	if r == "non" {
 		r = "none"
 	}
 	if val, ok := resultMap[r]; ok {
 		r2 = val
+	}
+
+	// 保存请求图片和识别结果（文件名中体现结果）
+	if r != "neg" { // neg 结果不保存
+		if helper.Settings.Customer["SAVE_IMAGE"] == "1" {
+			output_dir := fmt.Sprintf("%s/%s", 
+				helper.Settings.Customer["SAVE_IMAGE_PATH"], 
+				time.Now().Format("20060102"))
+			err = os.Mkdir(output_dir, 0755) // 建日志目录， 日期 做子目录
+			if err == nil || os.IsExist(err) { // 不处理错误
+				_ = ioutil.WriteFile(fmt.Sprintf("%s/%s_%s.jpg", output_dir, requestId, r), image, 0644)
+			} else {
+				log.Println("ERROR when saving log: ", err.Error())
+			}
+		}
 	}
 
 	return &map[string]interface{}{"result":r2, "comment":r}, nil
