@@ -8,7 +8,6 @@ import (
 	"github.com/jack139/go-infer/cli"
 	"github.com/jack139/go-infer/types"
 
-	//"antigen-go/models/qa"
 	"antigen-go/models/detpos"
 )
 
@@ -22,7 +21,6 @@ var (
 
 func init() {
 	// 添加模型实例
-	//types.ModelList = append(types.ModelList, &qa.BertQA{})
 	types.ModelList = append(types.ModelList, &detpos.DetPos{})
 
 	// 命令行设置
