@@ -37,6 +37,10 @@ func initModel() error {
 		return err
 	}
 
+
+	// 模型热身
+	warmup(helper.Settings.Customer["WARM_UP_IMAGES"])
+
 	return nil
 }
 
@@ -88,90 +92,11 @@ func (x *DetPos) Infer(requestId string, reqData *map[string]interface{}) (*map[
 		return &map[string]interface{}{"code":9002}, fmt.Errorf("图片数据太大")
 	}
 
-	// 转换张量
-	tensor, err := makeTensorFromBytes(image, 256, 256, 0.0, 255.0, true)
-	if err!=nil {
-		return &map[string]interface{}{"code":9003}, err
-	}
-
-	//log.Println(tensor.Value())
-	//log.Println("locate tensor: ", tensor.Shape())
-
-
-	// locate 模型推理
-	res, err := mLocate.Session.Run(
-		map[tf.Output]*tf.Tensor{
-			mLocate.Graph.Operation("input_1").Output(0): tensor,
-		},
-		[]tf.Output{
-			mLocate.Graph.Operation("dense_3/Sigmoid").Output(0),
-		},
-		nil,
-	)
+	// 模型推理
+	r, code, err := modleInfer(image)
 	if err != nil {
-		return &map[string]interface{}{"code":9004}, err
+		return &map[string]interface{}{"code":code}, err
 	}
-
-	ret := res[0].Value().([][]float32)
-
-	log.Println("locate result: ", ret)
-
-	// 使用 locate 结果，进行截图
-	cropImage, err := cropBox(image, ret[0])
-	if err != nil {
-		return &map[string]interface{}{"code":9005}, err
-	}
-
-	var r string
-	var cropByte []byte  // 因为下面使用 goto, 所以要在这声明变量
-
-	if cropImage == nil { // 未定位到 目标， 返回 none 结果
-		r = "none"
-		goto return_result
-	}
-
-	// 填充成正方形
-	cropImage = padBox(cropImage)
-
-	// 转换 为 字节流
-	cropByte, err = image2bytes(cropImage)
-	if err != nil {
-		return &map[string]interface{}{"code":9006}, err
-	}
-
-	// ----------- detpos 模型 识别 
-
-	// 转换张量
-	tensor, err = makeTensorFromBytes(cropByte, 128, 128, 0.0, 1.0, true)
-	if err!=nil {
-		return &map[string]interface{}{"code":9007}, err
-	}
-
-	//log.Println(tensor.Value())
-	//log.Println("detpos tensor: ", tensor.Shape())
-
-	// detpos 模型推理
-	res, err = mDetpos.Session.Run(
-		map[tf.Output]*tf.Tensor{
-			mDetpos.Graph.Operation("input_1").Output(0): tensor,
-		},
-		[]tf.Output{
-			mDetpos.Graph.Operation("dense_1/Softmax").Output(0),
-		},
-		nil,
-	)
-	if err != nil {
-		return &map[string]interface{}{"code":9008}, err
-	}
-
-	ret = res[0].Value().([][]float32)
-
-	log.Printf("detpos result: %v", ret)
-
-	// 转换标签，准备返回结果
-	r = bestLabel(ret[0])
-
-return_result:
 
 	r2 := "invaild"
 	if r == "non" {
