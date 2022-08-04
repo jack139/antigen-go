@@ -14,3 +14,6 @@ clean:
 	@echo "Clean old built"
 	@rm -rf $(BUILD)
 	@go clean
+	@find . -name "__pycache__" | xargs rm -rf
+	@find . -name '*.pyc' -delete
+

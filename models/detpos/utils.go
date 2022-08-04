@@ -1,15 +1,14 @@
 package detpos
 
 import (
-	tf "github.com/tensorflow/tensorflow/tensorflow/go"
-	"github.com/tensorflow/tensorflow/tensorflow/go/op"
-
 	"bytes"
 	"image"
 	"image/color"
 	"math"
 
 	"github.com/disintegration/imaging"
+	tf "github.com/tensorflow/tensorflow/tensorflow/go"
+	"github.com/tensorflow/tensorflow/tensorflow/go/op"
 )
 
 var (

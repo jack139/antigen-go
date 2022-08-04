@@ -6,7 +6,34 @@ import (
 	"io/ioutil"
 
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
+	"github.com/jack139/go-infer/helper"
 )
+
+/* 训练好的模型权重 */
+var (
+	mLocate *tf.SavedModel
+	mDetpos *tf.SavedModel
+)
+
+/* 初始化模型 */
+func initModel() error {
+	var err error
+	mLocate, err = tf.LoadSavedModel(helper.Settings.Customer["LocateModelPath"], []string{"train"}, nil)
+	if err != nil {
+		return err
+	}
+
+	mDetpos, err = tf.LoadSavedModel(helper.Settings.Customer["DetposModelPath"], []string{"train"}, nil)
+	if err != nil {
+		return err
+	}
+
+
+	// 模型热身
+	warmup(helper.Settings.Customer["WARM_UP_IMAGES"])
+
+	return nil
+}
 
 func modleInfer(image []byte) (string, int, error){
 
