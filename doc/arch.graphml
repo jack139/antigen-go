@@ -17,6 +17,42 @@
     <node id="n0">
       <data key="d6">
         <y:ShapeNode>
+          <y:Geometry height="209.0" width="445.0" x="1357.78" y="439.21000000000004"/>
+          <y:Fill hasColor="false" transparent="false"/>
+          <y:BorderStyle color="#C0C0C0" raised="false" type="dashed" width="2.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="128.47958374023438" x="300.71247278078636" y="223.78680994053093">API处理集群
+API processing cluster<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.5" labelRatioY="-0.5" nodeRatioX="0.4644765315079118" nodeRatioY="0.5" offsetX="0.0" offsetY="14.78680994053093" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n1">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="434.0" width="580.0" x="579.1400000000001" y="795.0233033561422"/>
+          <y:Fill hasColor="false" transparent="false"/>
+          <y:BorderStyle color="#C0C0C0" raised="false" type="dashed" width="2.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="93.96255493164062" x="465.4338333429482" y="448.78680994053093">模型推理
+Model inference<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.5" labelRatioY="-0.5" nodeRatioX="0.4644765315079118" nodeRatioY="0.5" offsetX="0.0" offsetY="14.78680994053093" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n2">
+      <data key="d6">
+        <y:ShapeNode>
           <y:Geometry height="444.00000000000006" width="569.0" x="-832.0" y="307.39686868686897"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#C0C0C0" raised="false" type="dashed" width="2.0"/>
@@ -31,25 +67,7 @@
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n1">
-      <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="434.0" width="580.0" x="578.6400000000001" y="796.0462626262627"/>
-          <y:Fill hasColor="false" transparent="false"/>
-          <y:BorderStyle color="#C0C0C0" raised="false" type="dashed" width="2.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="51.9736328125" x="507.42275546208884" y="448.78680994053093">模型推理<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.5" labelRatioY="-0.5" nodeRatioX="0.4644765315079118" nodeRatioY="0.5" offsetX="0.0" offsetY="14.78680994053093" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-          <y:Shape type="rectangle"/>
-        </y:ShapeNode>
-      </data>
-    </node>
-    <node id="n2">
-      <data key="d5"/>
+    <node id="n3">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="64.0" width="209.0" x="-652.0" y="347.89686868686897"/>
@@ -66,8 +84,7 @@
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n3">
-      <data key="d5"/>
+    <node id="n4">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="64.0" width="209.0" x="-652.0" y="632.8968686868687"/>
@@ -84,13 +101,14 @@
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n4">
+    <node id="n5">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="209.0" width="445.0" x="1357.78" y="973.0231313131312"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#C0C0C0" raised="false" type="dashed" width="2.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="75.96044921875" x="353.23160730227073" y="223.78680994053093">模型推理集群<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="135.3997802734375" x="293.79227624758323" y="223.78680994053093">模型推理集群
+Model inference cluster<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -101,29 +119,14 @@
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n5">
+    <node id="n6">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.directData">
           <y:Geometry height="76.0" width="263.0" x="1448.78" y="772.6165656565656"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="62.899627685546875" x="100.05018615722656" y="27.6046142578125">Redis 集群<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n6">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="46.0" width="170.0" x="1388.28" y="1018.21"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.169677734375" x="55.4151611328125" y="12.6046142578125">模型推理1<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="76.35623168945312" x="93.32188415527344" y="19.209228515625">Redis 集群
+Redis cluster<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -135,11 +138,12 @@
     </node>
     <node id="n7">
       <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.start1">
-          <y:Geometry height="76.0" width="165.0" x="1497.78" y="77.71000000000004"/>
+        <y:GenericNode configuration="com.yworks.flowchart.process">
+          <y:Geometry height="46.0" width="170.0" x="1388.28" y="1018.21"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="51.9736328125" x="56.51318359375" y="27.6046142578125">终端用户<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="105.15240478515625" x="32.423797607421875" y="4.209228515625">模型推理 1
+Model inference 1<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -151,11 +155,12 @@
     </node>
     <node id="n8">
       <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="76.0" width="206.0" x="1477.28" y="244.20999999999992"/>
+        <y:GenericNode configuration="com.yworks.flowchart.start1">
+          <y:Geometry height="76.0" width="165.0" x="1497.78" y="77.71000000000004"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="85.63912963867188" x="60.18043518066406" y="27.6046142578125">nginx 负载均衡<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="53.1729736328125" x="55.91351318359375" y="19.209228515625">终端用户
+End user<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -168,10 +173,11 @@
     <node id="n9">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="46.0" width="170.0" x="1603.28" y="1094.2099999999998"/>
+          <y:Geometry height="76.0" width="206.0" x="1477.28" y="244.20999999999992"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.596893310546875" x="54.70155334472656" y="12.6046142578125">模型推理N<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="118.62100219726562" x="43.68949890136719" y="19.209228515625">nginx 负载均衡
+nginx load balancing<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -184,10 +190,11 @@
     <node id="n10">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="46.0" width="170.0" x="1603.28" y="1018.21"/>
+          <y:Geometry height="46.0" width="170.0" x="1603.28" y="1094.2099999999998"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.169677734375" x="55.4151611328125" y="12.6046142578125">模型推理2<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="106.57962036132812" x="31.710189819335938" y="4.209228515625">模型推理N
+Model inference N<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -199,11 +206,28 @@
     </node>
     <node id="n11">
       <data key="d6">
+        <y:GenericNode configuration="com.yworks.flowchart.process">
+          <y:Geometry height="46.0" width="170.0" x="1603.28" y="1018.21"/>
+          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="105.15240478515625" x="32.423797607421875" y="4.209228515625">模型推理2
+Model inference 2<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+        </y:GenericNode>
+      </data>
+    </node>
+    <node id="n12">
+      <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="209.0" width="445.0" x="646.1400000000001" y="973.0231313131313"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#C0C0C0" raised="false" type="dotted" width="2.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="39.980224609375" x="392.8698876953124" y="184.2092285156249">线程池<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="111.40097045898438" x="321.449141845703" y="184.2092285156249">线程池 Thread Pool<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -214,13 +238,14 @@
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n12">
+    <node id="n13">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="76.0" width="206.0" x="765.6400000000001" y="303.2099999999999"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.40869140625" x="79.795654296875" y="27.6046142578125">API处理<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="87.0423583984375" x="59.47882080078125" y="19.209228515625">API处理
+API processing<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -230,7 +255,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n13">
+    <node id="n14">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="76.0" width="206.0" x="765.6400000000001" y="832.7100000000002"/>
@@ -246,7 +271,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n14">
+    <node id="n15">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.directData">
           <y:Geometry height="76.0" width="263.0" x="737.1400000000001" y="567.96"/>
@@ -262,29 +287,14 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n15">
+    <node id="n16">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="46.0" width="170.0" x="676.6400000000001" y="1018.2100000000003"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.169677734375" x="55.4151611328125" y="12.6046142578125">服务线程1<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n16">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.start1">
-          <y:Geometry height="76.0" width="165.0" x="786.1400000000001" y="77.71000000000004"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="51.9736328125" x="56.51318359375" y="27.6046142578125">终端用户<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.169677734375" x="55.4151611328125" y="4.209228515625">服务线程1
+Thread 1<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -296,11 +306,12 @@
     </node>
     <node id="n17">
       <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="46.0" width="170.0" x="891.6400000000001" y="1094.2099999999998"/>
+        <y:GenericNode configuration="com.yworks.flowchart.start1">
+          <y:Geometry height="76.0" width="165.0" x="786.1400000000001" y="77.71000000000004"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.596893310546875" x="54.70155334472656" y="12.6046142578125">服务线程N<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="53.1729736328125" x="55.91351318359375" y="19.209228515625">终端用户
+End user<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -313,10 +324,11 @@
     <node id="n18">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="46.0" width="170.0" x="891.6400000000001" y="1018.2100000000003"/>
+          <y:Geometry height="46.0" width="170.0" x="891.6400000000001" y="1094.2099999999998"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.169677734375" x="55.4151611328125" y="12.6046142578125">服务线程2<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.596893310546875" x="54.70155334472656" y="4.209228515625">服务线程N
+Thread N<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -328,19 +340,19 @@
     </node>
     <node id="n19">
       <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="209.0" width="445.0" x="1357.78" y="439.21000000000004"/>
-          <y:Fill hasColor="false" transparent="false"/>
-          <y:BorderStyle color="#C0C0C0" raised="false" type="dashed" width="2.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70.3955078125" x="358.79654870852073" y="223.78680994053093">API处理集群<y:LabelModel>
+        <y:GenericNode configuration="com.yworks.flowchart.process">
+          <y:Geometry height="46.0" width="170.0" x="891.6400000000001" y="1018.2100000000003"/>
+          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.169677734375" x="55.4151611328125" y="4.209228515625">服务线程2
+Thread 2<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.5" labelRatioY="-0.5" nodeRatioX="0.4644765315079118" nodeRatioY="0.5" offsetX="0.0" offsetY="14.78680994053093" upX="0.0" upY="-1.0"/>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
             </y:ModelParameter>
           </y:NodeLabel>
-          <y:Shape type="rectangle"/>
-        </y:ShapeNode>
+        </y:GenericNode>
       </data>
     </node>
     <node id="n20">
@@ -349,7 +361,8 @@
           <y:Geometry height="46.0" width="170.0" x="1388.28" y="484.39686868686886"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="53.604736328125" x="58.1976318359375" y="12.6046142578125">API处理1<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="98.23220825195312" x="35.88389587402344" y="4.209228515625">API处理1
+API processing 1<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -365,7 +378,8 @@
           <y:Geometry height="46.0" width="170.0" x="1603.28" y="560.3968686868686"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="55.031951904296875" x="57.48402404785156" y="12.6046142578125">API处理N<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="99.659423828125" x="35.1702880859375" y="4.209228515625">API处理N
+API processing N<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -381,7 +395,8 @@
           <y:Geometry height="46.0" width="170.0" x="1603.28" y="484.39686868686886"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="53.604736328125" x="58.1976318359375" y="12.6046142578125">API处理2<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="98.23220825195312" x="35.88389587402344" y="4.209228515625">API处理2
+API processing 2<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -520,7 +535,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <edge id="e0" source="n7" target="n8">
+    <edge id="e0" source="n8" target="n9">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -530,17 +545,18 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e1" source="n13" target="n11">
+    <edge id="e1" source="n14" target="n12">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="51.9736328125" x="10.0131689453126" y="19.34886464383885">线程处理<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="83.99603271484375" x="5.045753940377153" y="12.164353555199">多线程处理
+Multithreading<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="36.0" distanceToCenter="true" position="left" ratio="0.42788451354517465" segment="-1"/>
+              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="47.04378494623643" distanceToCenter="true" position="left" ratio="0.4278845135451795" segment="-1"/>
             </y:ModelParameter>
             <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
@@ -548,7 +564,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e2" source="n12" target="n14">
+    <edge id="e2" source="n13" target="n15">
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -556,11 +572,12 @@
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="111.940673828125" x="-155.7452155574009" y="86.3758658239629">生成请求消息并阻塞<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="158.93084716796875" x="-198.0797000767849" y="76.03157685596886">生成请求消息并阻塞
+Generate request and block<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="64.04496313620317" distanceToCenter="true" position="right" ratio="-26.305725884767305" segment="-1"/>
+              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="80.41466734582414" distanceToCenter="true" position="right" ratio="-35.832211029006096" segment="-1"/>
             </y:ModelParameter>
             <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
@@ -568,7 +585,7 @@
         </y:ArcEdge>
       </data>
     </edge>
-    <edge id="e3" source="n13" target="n14">
+    <edge id="e3" source="n14" target="n15">
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -576,11 +593,12 @@
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="99.947265625" x="45.136921070177436" y="-103.47192914293316">处理结果返回队列<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="191.79278564453125" x="33.64478471632583" y="-113.16658370232506">处理结果返回队列
+Results are returned to the queue<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="55.87214335182348" distanceToCenter="true" position="right" ratio="26.11018893102852" segment="-2"/>
+              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="86.16925555830788" distanceToCenter="true" position="right" ratio="42.51875184013925" segment="-2"/>
             </y:ModelParameter>
             <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
@@ -588,7 +606,7 @@
         </y:ArcEdge>
       </data>
     </edge>
-    <edge id="e4" source="n13" target="n14">
+    <edge id="e4" source="n14" target="n15">
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -596,11 +614,12 @@
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="standard" target="none"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="87.953857421875" x="-125.07012064924538" y="-107.2248412064124">拉取待处理消息<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="124.1259765625" x="-160.69630925181593" y="-113.67132372279355">拉取待处理消息
+Pull pending requests<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
-              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="43.318811549555704" distanceToCenter="true" position="left" ratio="-18.944507657074837" segment="-1"/>
+              <y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="58.13560535604986" distanceToCenter="true" position="left" ratio="-28.531841569464483" segment="-1"/>
             </y:ModelParameter>
             <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
@@ -608,7 +627,7 @@
         </y:ArcEdge>
       </data>
     </edge>
-    <edge id="e5" source="n14" target="n12">
+    <edge id="e5" source="n15" target="n13">
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -616,7 +635,8 @@
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="20.790771484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="87.953857421875" x="58.854521635105016" y="-105.00003330076709">唤醒请求并返回<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="37.58154296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="114.11148071289062" x="45.77570998959732" y="-113.39541904295459">唤醒请求并返回
+Wake up and return<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -628,8 +648,7 @@
         </y:ArcEdge>
       </data>
     </edge>
-    <edge id="e6" source="n16" target="n12">
-      <data key="d9"/>
+    <edge id="e6" source="n17" target="n13">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -648,8 +667,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e7" source="n8" target="n19">
-      <data key="d9"/>
+    <edge id="e7" source="n9" target="n0">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -658,8 +676,7 @@
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e8" source="n19" target="n5">
-      <data key="d9"/>
+    <edge id="e8" source="n0" target="n6">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -668,8 +685,7 @@
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e9" source="n5" target="n4">
-      <data key="d9"/>
+    <edge id="e9" source="n6" target="n5">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -678,8 +694,7 @@
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e10" source="n23" target="n2">
-      <data key="d9"/>
+    <edge id="e10" source="n23" target="n3">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -688,8 +703,7 @@
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e11" source="n3" target="n2">
-      <data key="d9"/>
+    <edge id="e11" source="n4" target="n3">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -720,7 +734,6 @@
       </data>
     </edge>
     <edge id="e13" source="n25" target="n26">
-      <data key="d9"/>
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -729,8 +742,7 @@
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e14" source="n2" target="n30">
-      <data key="d9"/>
+    <edge id="e14" source="n3" target="n30">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -739,8 +751,7 @@
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e15" source="n30" target="n3">
-      <data key="d9"/>
+    <edge id="e15" source="n30" target="n4">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
